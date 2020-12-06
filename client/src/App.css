@@ -1,0 +1,28 @@
+html, body {
+  box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
+  width: 100vw;
+  height: 100vh;
+}
+
+#root {
+  height: 100%;
+  width: 100%;
+}
+
+.map {
+  height: 65%;
+}
+
+.info-div{
+  position: absolute;
+  width: 95%;
+}
+
+.card-plot{
+  position: absolute;
+  width: 95%;
+  left: 0;
+  z-index: 999;
+}
