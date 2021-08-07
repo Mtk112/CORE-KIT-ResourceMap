@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 5000;
 const db = require('./db');
 
 app.use(bodyParser.json());
@@ -12,12 +12,19 @@ app.use(
 );
 
 app.get('/', (request, response) => {
-    response.json({ info: 'Node.js, Express, and Postgres API' })
+    response.json({ info: 'Node.js, Express, and Postgres API' });
+    //response.sendFile(path.join(__dirname, '...', 'client', 'src', 'index.js'));
 });
 
 app.get('/settlements', db.getSettlements);
-app.get('/settlement/:id', db.getSettlementInfoByCoords);
+app.get('/settlement/:id', db.getSettlement);
+app.get('/rivers', db.getRivers);
+app.get('/river/:id', db.getRiver);
+app.get('/townships', db.getTownships);
+app.get('/grid', db.getGrid);
+app.get('/districts', db.getDistricts);
+app.get('/city_town', db.getCityTown);
 
 app.listen(port, () => {
-    console.log(`App running on port ${port}.`)
+    console.log(`App running on port ${port}.`);
 });

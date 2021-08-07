@@ -4,13 +4,18 @@
   "description": "RESTful API with Node.js, Express and PostgreSQL",
   "main": "index.js",
   "scripts": {
+    "start" : "node ./index.js",
+    "dev": "nodemon ./index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Miikka Kallio",
   "license": "MIT",
   "dependencies": {
     "express": "^4.17.1",
     "pg": "^8.7.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
   }
 }
