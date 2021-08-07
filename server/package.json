@@ -4,7 +4,7 @@
   "description": "RESTful API with Node.js, Express and PostgreSQL",
   "main": "index.js",
   "scripts": {
-    "start" : "node ./index.js",
+    "start": "node ./index.js",
     "dev": "nodemon ./index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -12,6 +12,7 @@
   "author": "Miikka Kallio",
   "license": "MIT",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "pg": "^8.7.1"
   },

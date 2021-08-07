@@ -7,11 +7,13 @@ import {Card, CardBody,TabContent, TabPane, Nav, NavItem, NavLink, CardHeader} f
 import 'leaflet/dist/leaflet.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import './index.css';
+import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+/*
 const ResourceMap = (props) => {
   return(
-    <MapContainer className="map" center={ [20.7888, 97.0337] } zoom={7} > {/*maxZoom={17} minZoom={6}  Not sure whether to limit zoom*/}
+    <MapContainer className="map" center={ [20.7888, 97.0337] } zoom={7} > {/maxZoom={17} minZoom={6} //Not sure whether to limit zoom}
       <LayersControl position="topright">
         <LayersControl.BaseLayer name="OpenStreetMap.Mapnik">
           <TileLayer
@@ -212,8 +214,9 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById('root')
 );
-
+*/
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+ReactDOM.render(<App />, document.getElementById('root'));
 reportWebVitals();

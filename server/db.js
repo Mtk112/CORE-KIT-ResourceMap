@@ -8,7 +8,7 @@ const pool = new Pool({
 });
 
 const getSettlements = (request, response) => {
-    pool.query('SELECT population, village_hh, name FROM public.settlements ORDER BY gid ASC', (error, results) => {
+    pool.query('SELECT population, village_hh, name, longitude, latitude FROM public.settlements ORDER BY gid ASC', (error, results) => {
         if (error) {
             throw error;
         }
