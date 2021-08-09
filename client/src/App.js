@@ -2,19 +2,24 @@ import React, { Component } from 'react';
 import './App.css';
 import ReactDOM from 'react-dom';
 import Plot from 'react-plotly.js';
-import { MapContainer, TileLayer, Marker, Popup, LayersControl, Circle, FeatureGroup, LayerGroup} from 'react-leaflet';
 import {Card, CardBody,TabContent, TabPane, Nav, NavItem, NavLink, CardHeader} from 'reactstrap';
-
-import 'leaflet/dist/leaflet.css';
-import 'bootstrap/dist/css/bootstrap.css';
-import './index.css';
-
-const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000/settlements' : 'production-url-here';
+import Map from './components/Map';
 
 
+class App extends Component{
+
+  render(){
+    return(
+      <Map />
+  )
+  }
+}
+/*
 class App extends Component {
     state= {
-        settlements:[]
+        reference: null,
+        settlements:[],
+        rivers:[],
     };
     componentDidMount() {
         fetch(API_URL)
@@ -24,6 +29,13 @@ class App extends Component {
                 settlements
             });
         }); 
+        fetch('http://localhost:5000/rivers')
+        .then(response => response.json())
+        .then(rivers => {
+          this.setState({
+            rivers
+          });
+        });
     };
 
   render(){
@@ -61,23 +73,25 @@ class App extends Component {
               url='https://a.tile.opentopomap.org/{z}/{x}/{y}.png'
             />
           </LayersControl.BaseLayer>
-  
-          <LayersControl.Overlay name="Marker with popup">
-            <Marker position={[20.7888, 97.0337]}>
-              <Popup>
-                A pretty CSS3 popup. <br /> Easily customizable.
-              </Popup>
-            </Marker>
+          <LayersControl.Overlay name="Rivers">
+            <LayerGroup>
+              <GeoJSON attribution="River data from Hydrostreamer" key={this.state.rivers.gid} data={this.state.rivers} pathOptions={{ color: 'blue'}}>
+              </GeoJSON>
+            </LayerGroup>    
           </LayersControl.Overlay>
   
           <LayersControl.Overlay checked name="Settlements">
             <LayerGroup>
-                {this.state.settlements.map(settlements => (
+                {this.state.settlements.map(settlement => (
                     <Circle
-                        center={[settlements.latitude, settlements.longitude]}
+                        center={[settlement.latitude, settlement.longitude]}
                         pathOptions={{ fillColor: 'red' }}
-                        radius={50}
-                    />
+                        radius={5}>
+                        <Popup>
+                          <em>{settlement.name}</em>
+                          <p>Population : {settlement.population}</p>
+                        </Popup>
+                    </Circle>
                 ))};
             </LayerGroup>
           </LayersControl.Overlay>
@@ -88,5 +102,5 @@ class App extends Component {
     );
   };
 };
-
+*/
 export default App;

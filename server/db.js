@@ -8,8 +8,8 @@ const pool = new Pool({
 });
 
 const getSettlements = (request, response) => {
-    pool.query('SELECT population, village_hh, name, longitude, latitude FROM public.settlements ORDER BY gid ASC', (error, results) => {
-        if (error) {
+    pool.query(" SELECT 'FeatureCollection' As type, array_to_json(array_agg(f)) As features FROM (SELECT 'Feature' As type, ST_AsGeoJSON(geom)::json As geometry, row_to_json((SELECT l FROM (SELECT gid, name, village_hh, population) As l )) As properties FROM public.settlements As lg ) As f", (error, results) => {
+       if (error) {
             throw error;
         }
         response.status(200).json(results.rows);
@@ -29,7 +29,8 @@ const getSettlement = (request, response) => {
 };
 
 const getRivers = (request, response) => {
-    pool.query('SELECT * FROM public.rivers ORDER BY gid ASC', (error, results) => {
+    pool.query("SELECT row_to_json(fc) AS geojson FROM (SELECT 'FeatureCollection' AS type, array_to_json(array_agg(f)) As features FROM (SELECT 'Feature' As type, ST_AsGeoJSON((geom),15,0)::json As geometry, row_to_json((lg)) As properties FROM public.rivers As lg) As f ) As fc", (error, results) => {
+    //pool.query("SELECT jsonb_build_object('type', 'Feature', 'properties', to_jsonb(row) - 'gid' - 'geom') FROM (SELECT * FROM public.rivers) row;", (error, results) => {
         if (error) {
             throw error;
         };
@@ -48,7 +49,7 @@ const getRiver = (request, response) => {
 };
 
 const getTownships = (request, response) => {
-    pool.query('SELECT * FROM public.townships ORDER BY gid ASC', (error, results) =>{
+    pool.query("SELECT row_to_json(fc) AS geojson FROM (SELECT 'FeatureCollection' As type, array_to_json(array_agg(f)) AS features FROM (SELECT 'Feature' As type, ST_AsGeoJSON(ST_Transform(lg.geometry, 4326),15,0)::json As geometry, row_to_json((*)) As properties FROM public.townships As lg) As f) As fc", (error, results) =>{
         if(error){
             throw error;
         };
