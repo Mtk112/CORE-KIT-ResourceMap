@@ -1,46 +1,17 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { TileLayer, LayersControl, GeoJSON, LayerGroup } from 'react-leaflet';
-import L from 'leaflet';
+import SettlementsOverlay from './SettlementsOverlay';
+import RiversOverlay from './RiversOverlay';
+import TownshipsOverlay from './TownshipsOverlay';
+import MediumVoltageGrid from './MediumVoltageGrid';
+import DistrictsOverlay from './DistrictsOverlay';
+import CityTownOverlay from './CityTownOverlay';
 
 
 
 class Layers  extends Component {
-    constructor(){
-        super();
-        this.state = {
-          settlements: null,
-          settlementRef: null,
-          rivers: null,
-          lastSettlement: null
-        }  
-    }
-
-    pointToLayer(feature, latlng) {
-        return L.circle(latlng, {radius: 5});
-    }
-
-    onEachFeatureSettlement(feature, layer) {
-        layer.on({
-          'click': function (e) {
-            //this.setState({lastSettlement: e.target});
-            console.log('Name: ', e.target.feature.properties.name + ', population: ', e.target.feature.properties.population + ', number of households: ', e.target.feature.properties.village_hh + ', settlement ID: ', e.target.feature.properties.gid );  
-           }
-        })
-      }
-      
-
-    async getSettlements(){
-        const res = await axios.get('http://localhost:5000/settlements');
-        const { data } = await res;
-        let reference = React.createRef();
-        this.setState({settlements: data[0], settlementRef: reference});
-        //console.log(this.state.settlements);
-    }
-    componentDidMount() {
-        this.getSettlements();
-    }
-
+    //Renders each base tilelayer, and overlay from each Overlay component.
     render(){
   return (
       <LayersControl position="topright">
@@ -75,32 +46,27 @@ class Layers  extends Component {
                     url='https://a.tile.opentopomap.org/{z}/{x}/{y}.png'
                 />
             </LayersControl.BaseLayer>
-
-            { /* Overlays */}
-
-            <LayersControl.Overlay name="Rivers">
-                <LayerGroup>
-                    
-                </LayerGroup>    
-            </LayersControl.Overlay>
-  
             <LayersControl.Overlay checked name="Settlements">
-                    {this.state.settlements && (
-                        <GeoJSON attribution="Settlement data from 2014 Census, Myanmar" data={this.state.settlements} ref={this.settlementRef} onEachFeature={this.onEachFeatureSettlement.bind(this)} pointToLayer={this.pointToLayer.bind(this)} />
-                    )}
-                  {/*  {this.state.settlements.map(settlement => (
-                        <Circle
-                            center={[settlement.latitude, settlement.longitude]}
-                            pathOptions={{ fillColor: 'red' }}
-                            radius={5}>
-                            <Popup>
-                            <em>{settlement.name}</em>
-                            <p>Population : {settlement.population}</p>
-                            </Popup>
-                        </Circle>
-                    ))}; */ }
+                <SettlementsOverlay />
             </LayersControl.Overlay>
-            <LayersControl.Overlay name="Feature group">
+        
+            <LayersControl.Overlay name="Rivers">
+                 <RiversOverlay />    
+            </LayersControl.Overlay>
+
+            <LayersControl.Overlay name="Townships">
+                 <TownshipsOverlay />    
+            </LayersControl.Overlay>
+
+            <LayersControl.Overlay name="Medium Voltage Grid">
+                 <MediumVoltageGrid />    
+            </LayersControl.Overlay>
+
+            <LayersControl.Overlay name="Districts">
+                 <DistrictsOverlay />    
+            </LayersControl.Overlay>
+            <LayersControl.Overlay name="City / Town">
+                 <CityTownOverlay />    
             </LayersControl.Overlay>
         </LayersControl>
   )
