@@ -15,19 +15,20 @@ class Layers  extends Component {
     render(){
   return (
       <LayersControl position="topright">
-            <LayersControl.BaseLayer name="OpenStreetMap.Mapnik">
-                <TileLayer
-                    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                />
-            </LayersControl.BaseLayer>
 
-            <LayersControl.BaseLayer name="MapBox.Streets">
+            <LayersControl.BaseLayer checked name="MapBox.Streets">
                 <TileLayer
                     attribution='Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>'
                     url='https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}'
                     id='mapbox/streets-v11'
                     accessToken='pk.eyJ1IjoibWthbGxpbzIiLCJhIjoiY2pyN3Fha2hyMDBxNzN4cW5sYm12MWkwbyJ9.q1pVLHFRx0Cav6vmyACAYw'
+                />
+            </LayersControl.BaseLayer>
+
+            <LayersControl.BaseLayer name="OpenStreetMap.Mapnik">
+                <TileLayer
+                    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
             </LayersControl.BaseLayer>
 
@@ -40,7 +41,7 @@ class Layers  extends Component {
                 />
             </LayersControl.BaseLayer>
 
-            <LayersControl.BaseLayer checked name="OpenTopoMap">
+            <LayersControl.BaseLayer name="OpenTopoMap">
                 <TileLayer
                     attribution='Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org/">SRTM</a> | map style: © <a href="https://opentopomap.org/">OpenTopoMap</a> (CC-BY-SA)'
                     url='https://a.tile.opentopomap.org/{z}/{x}/{y}.png'

@@ -18,7 +18,7 @@ const getSettlements = (request, response) => {
 
 
 const getRivers = (request, response) => {
-    pool.query("SELECT 'FeatureCollection' As type, array_to_json(array_agg(f)) As features FROM (SELECT 'Feature' As type, ST_AsGeoJSON(geom)::json As geometry, row_to_json((SELECT l FROM (SELECT gid) As l )) As properties FROM public.rivers As lg ) As f", (error, results) => {
+    pool.query("SELECT 'FeatureCollection' As type, array_to_json(array_agg(f)) As features FROM (SELECT 'Feature' As type, ST_AsGeoJSON(geom)::json As geometry, row_to_json((SELECT l FROM (SELECT riverid) As l )) As properties FROM public.rivers As lg ) As f", (error, results) => {
     //pool.query("SELECT row_to_json(fc) AS geojson FROM (SELECT 'FeatureCollection' AS type, array_to_json(array_agg(f)) As features FROM (SELECT 'Feature' As type, ST_AsGeoJSON((geom),15,0)::json As geometry, row_to_json((lg)) As properties FROM public.rivers As lg) As f ) As fc", (error, results) => {
     //pool.query("SELECT jsonb_build_object('type', 'Feature', 'properties', to_jsonb(row) - 'gid' - 'geom') FROM (SELECT * FROM public.rivers) row;", (error, results) => {
         if (error) {

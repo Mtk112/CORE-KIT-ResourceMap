@@ -9,19 +9,3 @@ html,body {
     height: 100%;
     width: 100%;
 }
-
-.map {
-    height: 65%;
-}
-
-.info-div{
-    align-content: center;
-    position: absolute;
-    height:100%;
-}
-
-.card-plot{
-    position: absolute;
-    z-index: 999;
-    width: 100%;
-}

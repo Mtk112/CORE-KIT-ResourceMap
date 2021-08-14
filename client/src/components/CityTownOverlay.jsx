@@ -29,7 +29,6 @@ class CityTownOverlay extends Component {
         const { data } = await res;
         let reference = React.createRef();
         this.setState({cityTown: data[0], cityTownRef: reference});
-        console.log(this.state.cityTown);
     }
     componentDidMount() {
         this.getCityTown();

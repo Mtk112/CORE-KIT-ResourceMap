@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { GeoJSON } from 'react-leaflet';
-import L from 'leaflet';
 
 class DistrictsOverlay extends Component {
     constructor(){
@@ -25,7 +24,7 @@ class DistrictsOverlay extends Component {
         const { data } = await res;
         let reference = React.createRef();
         this.setState({districts: data[0], districtsRef: reference});
-        console.log(this.state.districts);
+        //console.log(this.state.districts);
     }
     componentDidMount() {
         this.getDistricts();
@@ -36,8 +35,8 @@ class DistrictsOverlay extends Component {
             this.state.districts && (
                 <GeoJSON data={this.state.districts} ref={this.districtsRef} onEachFeature={this.onEachFeature.bind(this)} />
             )
-        )
-    }
+        );
+    };
 }
 
 export default DistrictsOverlay;

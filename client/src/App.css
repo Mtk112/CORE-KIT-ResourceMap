@@ -17,12 +17,25 @@ html, body {
 
 .info-div{
   position: absolute;
-  width: 95%;
+  width: 100%;
 }
 
 .card-plot{
   position: absolute;
-  width: 95%;
+  width: 100%;
   left: 0;
   z-index: 999;
+}
+
+.tabs{
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  margin: 0;
+  padding: 0;
+}
+
+#tab{
+  flex: 1;
+  text-align: center;
 }

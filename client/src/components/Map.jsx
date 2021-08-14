@@ -9,7 +9,7 @@ class Map extends Component {
       <>
         <MapContainer 
           center={[20.7888, 97.0337]}
-          zoom={7}
+          zoom={9}
           style={{ height: '50vh'}}
         >
           <Layers />

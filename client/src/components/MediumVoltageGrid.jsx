@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { GeoJSON } from 'react-leaflet';
-import L from 'leaflet';
 
 class MediumVoltageGrid extends Component{
 
@@ -25,7 +24,6 @@ class MediumVoltageGrid extends Component{
         const { data } = await res;
         let reference = React.createRef();
         this.setState({mvGrid: data[0], mvGridRef: reference});
-        console.log(this.state.mvGrid);
     };
     componentDidMount() {
         this.getGrid();

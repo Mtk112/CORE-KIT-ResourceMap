@@ -15,29 +15,29 @@ class RiversOverlay extends Component {
     onEachFeature(feature, layer) {
         layer.on({
           'click': function (e) {
-            console.log('RiverID: ', e.target.feature.properties.gid );  
+            console.log('RiverID: ', e.target.feature.properties.riverid );  
            }
         })
     }
 
     async getRivers(){
-        const res = await axios.get('http://localhost:5000/settlements');
+        const res = await axios.get('http://localhost:5000/rivers');
         const { data } = await res;
         let reference = React.createRef();
         this.setState({rivers: data[0], riversRef: reference});
-        console.log(this.state.rivers);
+        //console.log(this.state.rivers);
     }
     componentDidMount() {
         this.getRivers();
-    }
+    };
 
     render(){
         return(
             this.state.rivers && (
                 <GeoJSON data={this.state.rivers} ref={this.riversRef} onEachFeature={this.onEachFeature.bind(this)} />
             )
-        )
-    }
-}
+        );
+    };
+};
 
 export default RiversOverlay;

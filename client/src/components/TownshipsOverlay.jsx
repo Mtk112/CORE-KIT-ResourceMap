@@ -24,7 +24,7 @@ class TownshipsOverlay extends Component{
         const { data } = await res;
         let reference = React.createRef();
         this.setState({townships: data[0], townshipsRef: reference});
-        console.log(this.state.townships);
+        //console.log(this.state.townships);
     };
     componentDidMount() {
         this.getTownships();
