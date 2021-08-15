@@ -7,10 +7,10 @@ import InfoTabs from './components/InfoTabs';
 class App extends Component{
 
   render(){
-    return[
-      <Map />,
-      <InfoTabs/>
-    ];
+    return([
+        <Map key="map"/>,
+        <InfoTabs key="infoTabs"/>
+    ]);
   };
 };
 

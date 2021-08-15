@@ -39,3 +39,7 @@ html, body {
   flex: 1;
   text-align: center;
 }
+
+#pane{
+  z-index: 99;
+}

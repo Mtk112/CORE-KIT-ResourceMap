@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { GeoJSON } from 'react-leaflet';
+import { GeoJSON, Pane } from 'react-leaflet';
 import L from 'leaflet';
 
 class SettlementsOverlay  extends Component {
@@ -41,7 +41,9 @@ class SettlementsOverlay  extends Component {
     render(){
         return(
             this.state.settlements && (
-                <GeoJSON attribution="Settlement data from 2014 Census, Myanmar" data={this.state.settlements} ref={this.settlementRef} onEachFeature={this.onEachFeature.bind(this)} pointToLayer={this.pointToLayer.bind(this)} />
+                <Pane className="settlementPane" id="pane">
+                    <GeoJSON data={this.state.settlements} ref={this.settlementRef} onEachFeature={this.onEachFeature.bind(this)} pointToLayer={this.pointToLayer.bind(this)} />
+                </Pane>
             )
         )
     }

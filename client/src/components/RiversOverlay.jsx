@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { GeoJSON } from 'react-leaflet';
-import L from 'leaflet';
+import { GeoJSON, Pane } from 'react-leaflet';
 
 class RiversOverlay extends Component {
     constructor(){
@@ -34,7 +33,9 @@ class RiversOverlay extends Component {
     render(){
         return(
             this.state.rivers && (
-                <GeoJSON data={this.state.rivers} ref={this.riversRef} onEachFeature={this.onEachFeature.bind(this)} />
+                <Pane className="riversPane" id="pane">
+                    <GeoJSON data={this.state.rivers} ref={this.riversRef} onEachFeature={this.onEachFeature.bind(this)} />
+                </Pane>
             )
         );
     };

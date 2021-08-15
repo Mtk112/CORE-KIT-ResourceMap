@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { GeoJSON } from 'react-leaflet';
+import { GeoJSON, Pane } from 'react-leaflet';
 
 class MediumVoltageGrid extends Component{
 
@@ -32,7 +32,9 @@ class MediumVoltageGrid extends Component{
     render(){
         return(
             this.state.mvGrid && (
-                <GeoJSON data={this.state.mvGrid} ref={this.mvGridRef} onEachFeature={this.onEachFeature.bind(this)} />
+                <Pane className="gridPane" id="pane">
+                    <GeoJSON data={this.state.mvGrid} ref={this.mvGridRef} onEachFeature={this.onEachFeature.bind(this)} />
+                </Pane>
             )
         )
     };
