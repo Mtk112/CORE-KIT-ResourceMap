@@ -30,10 +30,16 @@ class TownshipsOverlay extends Component{
     };
 
     render(){
+        //changing the color of the layer
+        const style = {
+            color: 'ivory',
+            fillColor: 'ivory'
+        };
+
         return(
             this.state.townships && (
             <Pane className="townshipPane" id="pane">
-                <GeoJSON data={this.state.townships} ref={this.townshipsRef} onEachFeature={this.onEachFeature.bind(this)} />
+                <GeoJSON data={this.state.townships} ref={this.townshipsRef} onEachFeature={this.onEachFeature.bind(this)} style={style}/>
             </Pane>
             )
         )

@@ -14,7 +14,7 @@ class SettlementsOverlay  extends Component {
     }
 
     pointToLayer(feature, latlng) {
-        return L.circle(latlng, {radius: 5});
+        return L.circle(latlng, {radius: 5, color: 'purple'});
     }
 
     onEachFeature(feature, layer) {
@@ -41,7 +41,7 @@ class SettlementsOverlay  extends Component {
     render(){
         return(
             this.state.settlements && (
-                <Pane className="settlementPane" id="pane">
+                <Pane className='settlementPane' id='pane'>
                     <GeoJSON data={this.state.settlements} ref={this.settlementRef} onEachFeature={this.onEachFeature.bind(this)} pointToLayer={this.pointToLayer.bind(this)} />
                 </Pane>
             )

@@ -30,10 +30,15 @@ class MediumVoltageGrid extends Component{
     };
 
     render(){
+        //changing the color of the layer
+        const style = {
+            color: 'orange',
+            fillColor: 'orange'
+        };
         return(
             this.state.mvGrid && (
                 <Pane className="gridPane" id="pane">
-                    <GeoJSON data={this.state.mvGrid} ref={this.mvGridRef} onEachFeature={this.onEachFeature.bind(this)} />
+                    <GeoJSON data={this.state.mvGrid} ref={this.mvGridRef} onEachFeature={this.onEachFeature.bind(this)} style={style}/>
                 </Pane>
             )
         )

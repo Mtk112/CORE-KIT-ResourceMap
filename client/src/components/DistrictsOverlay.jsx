@@ -31,10 +31,15 @@ class DistrictsOverlay extends Component {
     }
 
     render(){
+        //changing the color of the layer
+        const style = {
+            color: 'DarkOliveGreen',
+            fillColor: 'DarkOliveGreen'
+        };
         return(
             this.state.districts && (
                 <Pane className="districtsPane" id="pane">
-                    <GeoJSON data={this.state.districts} ref={this.districtsRef} onEachFeature={this.onEachFeature.bind(this)} />
+                    <GeoJSON data={this.state.districts} ref={this.districtsRef} onEachFeature={this.onEachFeature.bind(this)} style={style} />
                 </Pane>
             )
         );
