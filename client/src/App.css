@@ -43,3 +43,6 @@ html, body {
 #pane{
   z-index: 99;
 }
+#center{
+  text-align: center;
+}

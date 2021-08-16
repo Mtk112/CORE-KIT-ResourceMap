@@ -12,6 +12,6 @@ class App extends Component{
         <InfoTabs key="infoTabs"/>
     ]);
   };
-};
+}
 
 export default App;
