@@ -46,3 +46,11 @@ html, body {
 #center{
   text-align: center;
 }
+#dropdown-basic-button{
+  z-index: 5000;
+  position: absolute;
+  margin-left: 50;
+}
+#ddItem{
+  z-index: 1000;
+}

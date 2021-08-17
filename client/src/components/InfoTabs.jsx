@@ -1,20 +1,21 @@
-import React, {Component} from 'react';
+import React, {useState} from 'react';
 import {Tabs, Tab} from 'react-bootstrap';
 import {Card, CardHeader} from 'reactstrap';
 import Solar from './Solar';
 import Wind from './Wind';
 
+function InfoTabs({solarData, monthData}) {
+    const [month, setMonthData] = useState(monthData); 
+    //testing
+    const [solar, setSolarData] = useState(solarData);
 
-class InfoTabs extends Component {
-    render(){
-        return (
-            <div>
-              <Card className = "card-plot">
+    return (
+        <div>
+            <Card className = "card-plot">
                 <CardHeader tag="h5">
                     <Tabs defaultActiveKey="solar" className="tabs">
                         <Tab eventKey="solar" title="Solar" id="tab">
-                            <p id="center">Select location from the map to view solar data.</p>
-                            <Solar />
+                            <Solar solarData = {solar} />
                         </Tab>
                         <Tab eventKey="wind" title="Wind" id="tab">
                             <p id="center">Select location from the map to view wind data.</p>
@@ -28,10 +29,9 @@ class InfoTabs extends Component {
                         </Tab>
                     </Tabs>
                 </CardHeader>
-              </Card>
-            </div>
-          );
-    };
+            </Card>
+        </div>
+    );
 
 };
 
