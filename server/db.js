@@ -8,13 +8,23 @@ const pool = new Pool({
 });
 
 const getSettlements = (request, response) => {
-    pool.query(" SELECT 'FeatureCollection' As type, array_to_json(array_agg(f)) As features FROM (SELECT 'Feature' As type, ST_AsGeoJSON(geom)::json As geometry, row_to_json((SELECT l FROM (SELECT gid, name, village_hh, population) As l )) As properties FROM public.settlements As lg ) As f", (error, results) => {
+    pool.query(" SELECT 'FeatureCollection' As type, array_to_json(array_agg(f)) As features FROM (SELECT 'Feature' As type, ST_AsGeoJSON(geom)::json As geometry, row_to_json((SELECT l FROM (SELECT gid, name, village_hh, population, district, township) As l )) As properties FROM public.settlements As lg ) As f", (error, results) => {
        if (error) {
             throw error;
         }
         response.status(200).json(results.rows);
     });
 };
+
+const getSettlement = (request, response) => {
+    const gid = parseInt(request.params.id);
+    pool.query('SELECT name, village_hh, population, district, township FROM public.settlements WHERE gid = $1', [gid], (error, results) =>{
+        if(error) {
+            throw error;
+        };
+        response.status(200).json(results.rows);
+    });
+}
 
 
 const getRivers = (request, response) => {
@@ -68,6 +78,7 @@ const getCityTown = (request, response) => {
 
 module.exports = {
     getSettlements,
+    getSettlement,
     getRivers,
     getTownships,
     getGrid,

@@ -12,6 +12,10 @@ function Map() {
   const [mapHeight, setMapHeight] = useState('100vh');
   const [position, setPosition] = useState('');
   const [solar, setSolar] = useState('');  //setSolar([7, 5.5, 11, 15, 12, 10.5, 10, 8, 11, 7, 4, 4]);
+  const [wind, setWind] = useState('');
+  const [settlement, setSettlement] = useState([]);
+  const [river, setRiver] = useState('');
+
 
   // Sets month based on which month is selected from dropdown, this will be used for solar and wind raster overlays... if i can block map.click happening under the dropdown.
   const change = (e) => {
@@ -22,18 +26,25 @@ function Map() {
   function MyComponent() {
     const map = useMapEvents({
       click: (e) => {
+        //creates bounds for area clicked. 
         var clickBounds = L.latLngBounds(e.latlng, e.latlng);
         var intersectingFeatures = [];
+        //Goes through every layer active.
         for (var l in map._layers) {
           var overlay = map._layers[l];
+          //checks that the layer has features i.e. that the layer is overlay.
           if (overlay._layers) {
+            //goes through each feature
             for (var f in overlay._layers) {
               var feature = overlay._layers[f];
               var bounds;
-              if (feature.getBounds) bounds = feature.getBounds();
-              else if (feature._latlng) {
+              //checks if feature has bounds. incase it doesnt creates bounds. pretty sure none of my features has bounds
+              /*if (feature.getBounds) bounds = feature.getBounds();
+              else*/ if (feature._latlng) {
                 bounds = L.latLngBounds(feature._latlng, feature._latlng);
               }
+              //if feature and clicked area intersects the feature gets added to the array.
+              //** For some reason each intersecting feature gets added twice **
               if (bounds && clickBounds.intersects(bounds)) {
                 intersectingFeatures.push(feature);
               }
@@ -41,21 +52,31 @@ function Map() {
           }
         }
         // if at least one feature found, show it
-        
         if (intersectingFeatures.length) {
-          if (intersectingFeatures.length) {
-            var html = "Found features: " + intersectingFeatures.length + "<br/>" + intersectingFeatures.map(function(o) {
-              console.log(o.feature.properties);
-              return o.feature.properties.name;
-            }).join('<br/>');
+          intersectingFeatures.map(function(obj) {
+          /*  Checks which layer the feature belongs to and saves the gid of the feature. 
+              obj doesnt have layer data so layer is identified by unique property.
 
-          map.openPopup(html, e.latlng, {
-            offset: L.point(0, -24)
-          });
-        }
-      }
+              ISSUE!!! Doesnt save the gid when map is clicked. Instead saves it on a subsequent click and the gid is from the previous click.
+            
+          */
+            if(obj.feature.properties.name){
+              setSettlement(obj.feature.properties.gid);
+            }
+            else if(obj.feature.properties.riverid){
+              console.log('Got to setRiver part..');
+              setRiver(obj.feature.properties.gid);
+            }
+            else{
+              console.log('This feature is not a settlement nor a river.');
+            }
+            return null;
+          })
+       }
+       console.log('Settlement : ' + settlement );
+       console.log('River: ' + river);
         //console.log(e.latlng);
-        setPosition([e.latlng.lat, e.latlng.lng]);
+        map.panTo([e.latlng.lat, e.latlng.lng]);
         setSolar([7, 5.5, 11, 15, 12, 10.5, 10, 8, 11, 7, 4, 4]);
         if(mapHeight === '100vh'){
           setMapHeight('50vh');
@@ -91,7 +112,8 @@ function Map() {
         </DropdownButton>
         <Layers />
       </MapContainer>
-      { solar && <InfoTabs key="infoTabs" solarData = {solar} monthData = {month} / > }   
+      {/* using solar data to check if map has been clicked. when map is clicked the infotabs component is rendered */}
+      { solar && <InfoTabs key="infoTabs" solarData = {solar} monthData = {month} settlementData = {settlement} / > }   
     </>
   )
 }
