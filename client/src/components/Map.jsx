@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import { MapContainer, useMapEvents, MapConsumer } from 'react-leaflet';
 import { DropdownButton, Dropdown } from 'react-bootstrap';
+import axios from 'axios';
 import L from 'leaflet';
 import Layers from './Layers';
 import InfoTabs from './InfoTabs';
@@ -11,7 +12,7 @@ function Map() {
   const [month, setMonth] = useState('January');
   const [mapHeight, setMapHeight] = useState('100vh');
   const [position, setPosition] = useState('');
-  const [solar, setSolar] = useState('');  //setSolar([7, 5.5, 11, 15, 12, 10.5, 10, 8, 11, 7, 4, 4]);
+  const [solar, setSolar] = useState('');
   const [wind, setWind] = useState('');
   const [settlement, setSettlement] = useState([]);
   const [river, setRiver] = useState('');
@@ -24,9 +25,25 @@ function Map() {
 
   // Adds a component for map clicks (for some reason the first click does not set position).
   function MyComponent() {
+    async function getSolarAtPoint(lat, lng){
+      const res = await axios.get('http://localhost:5000/solarAtPoint/'+lat+'/'+lng);
+      const { data } = await res;
+      setSolar(Object.values(data[0]));
+    };
+
+    async function getWindAtPoint(lat, lng){
+      const res = await axios.get('http://localhost:5000/windAtPoint/'+lat+'/'+lng);
+      const { data } = await res;
+      setWind(Object.values(data[0]));
+    };
+
     const map = useMapEvents({
       click: (e) => {
+        //Sets position based on point clicked.
         setPosition([e.latlng.lat, e.latlng.lng]);
+        //gets solar & wind data from raster in database based on position
+        getSolarAtPoint(e.latlng.lat, e.latlng.lng);
+        getWindAtPoint(e.latlng.lat, e.latlng.lng);
         //creates bounds for area clicked. 
         var clickBounds = L.latLngBounds(e.latlng, e.latlng);
         var overlapingFeatures = [];
@@ -54,13 +71,10 @@ function Map() {
         }
         // if at least one feature found, show it
         if (overlapingFeatures.length) {
-          console.log(overlapingFeatures);
+          //console.log(overlapingFeatures);
             overlapingFeatures.map(function(obj) {
             /*  Checks which layer the feature belongs to and saves the gid of the feature. 
-                obj doesnt have layer data so layer is identified by unique property.
-
-                ISSUE!!! Doesnt save the gid when map is clicked. Instead saves it on a subsequent click and the gid is from the previous click.
-              
+                obj doesnt have layer data so layer is identified by unique property.              
             */
               if(obj.feature.properties.name){
                 setSettlement(obj.feature.properties.gid);
@@ -70,20 +84,20 @@ function Map() {
                 setRiver(obj.feature.properties.riverid);
               }
               else{
-                console.log('This feature is not a settlement nor a river.');
+                console.log('This feature is not a settlement or a river.');
               }
               return null;
             })
        }
-       console.log('Settlement : ' + settlement );
-       console.log('River: ' + river);
+        //console.log('Settlement : ' + settlement );
+        //console.log('River: ' + river);
         //console.log(e.latlng);
         map.panTo([e.latlng.lat, e.latlng.lng]);
-        setSolar([7, 5.5, 11, 15, 12, 10.5, 10, 8, 11, 7, 4, 4]);
+        console.log("Position before getSolar() : " + position);
         if(mapHeight === '100vh'){
           setMapHeight('50vh');
         }
-        //console.log('Map click. Position '+ position, ' solar: ' + solar);
+        
       }
     })
     return null;
@@ -115,7 +129,7 @@ function Map() {
         <Layers />
       </MapContainer>
       {/* using solar data to check if map has been clicked. when map is clicked the infotabs component is rendered */}
-      { solar && <InfoTabs key="infoTabs" solarData = {solar} monthData = {month} settlementData = {settlement} riverData = {river} positionData = {position} / > }   
+      { solar && <InfoTabs key="infoTabs" solarData = {solar} monthData = {month} settlementData = {settlement} riverData = {river} windData = {wind} / > }   
     </>
   )
 }

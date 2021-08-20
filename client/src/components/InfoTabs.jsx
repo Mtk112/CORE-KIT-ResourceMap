@@ -6,7 +6,7 @@ import Wind from './Wind';
 import Settlement from './Settlement';
 import River from './River';
 
-function InfoTabs({solarData, monthData, settlementData, riverData, positionData}) {
+function InfoTabs({solarData, monthData, settlementData, riverData, windData}) {
 
     return (
         <div>
@@ -17,7 +17,7 @@ function InfoTabs({solarData, monthData, settlementData, riverData, positionData
                             <Solar solarData = {solarData} />
                         </Tab>
                         <Tab eventKey="wind" title="Wind" id="tab">
-                            <Wind positionData = {positionData}/>
+                            <Wind windData = {windData}/>
                         </Tab>
                         <Tab eventKey="hydro" title="Hydro" id="tab">
                             <River riverData = {riverData} />

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Plot from 'react-plotly.js';
 
 function Solar( {solarData} ) {
@@ -22,7 +22,7 @@ function Solar( {solarData} ) {
                         mode: 'lines',
                     }
                     ]}
-                    layout={{width: 450, height: 250, margin: {l: 35, r: 15, b: 75, t: 35, pad: 2}, xaxis: {autotick: false, ticks: 'outside', tick0: 0, dtick: 1, title: 'Month'}, yaxis:{title: 'kWh / kWp'}, title: 'Dummy data sent all the way from <Map />' }}
+                    layout={{width: 450, height: 250, margin: {l: 35, r: 15, b: 75, t: 35, pad: 2}, xaxis: {autotick: false, ticks: 'outside', tick0: 0, dtick: 1, title: 'Month'}, yaxis:{title: 'kWh / kWp'}, title: 'Monthly solar potential' }}
                     config={{ modeBarButtonsToRemove: ['toImage', 'zoom2d', 'pan', 'pan2d', 'autoScale2d','zoomIn2d', 'zoomOut2d','resetScale2d'], responsive: true }}
                 />
             </>

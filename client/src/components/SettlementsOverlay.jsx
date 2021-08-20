@@ -21,7 +21,7 @@ class SettlementsOverlay  extends Component {
         layer.on({
         'click': function (e) {
             //this.setState({lastSettlement: e.target});
-            console.log('Name: ', e.target.feature.properties.name + ', population: ', e.target.feature.properties.population + ', number of households: ', e.target.feature.properties.village_hh + ', settlement ID: ', e.target.feature.properties.gid );  
+            //console.log('Name: ', e.target.feature.properties.name + ', population: ', e.target.feature.properties.population + ', number of households: ', e.target.feature.properties.village_hh + ', settlement ID: ', e.target.feature.properties.gid );  
         }
         })
     }

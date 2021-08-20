@@ -79,8 +79,20 @@ const getCityTown = (request, response) => {
 const getWindAtPoint = (request, response) => {
     const lat = parseFloat(request.params.lat);
     const lng = parseFloat(request.params.lng);
-    // Gets the nearest wind value based on... I have to specify each band by hand, PostGIS doc did not have a way to get value from all bands at once.
-    pool.query("SELECT ST_NearestValue(rast, 1 , ST_SetSRID(ST_MakePoint(  $1 , $2 ), 4326)) As b1val ,ST_NearestValue(rast, 2 , ST_SetSRID(ST_MakePoint(  $1 , $2 ), 4326)) b2val, ST_NearestValue(rast, 3 , ST_SetSRID(ST_MakePoint(  $1 , $2 ), 4326)) b3val, ST_NearestValue(rast, 4 , ST_SetSRID(ST_MakePoint(  $1 , $2 ), 4326)) b4val, ST_NearestValue(rast, 5 , ST_SetSRID(ST_MakePoint(  $1 , $2 ), 4326)) b5val, ST_NearestValue(rast, 6 , ST_SetSRID(ST_MakePoint(  $1 , $2 ), 4326)) b6val, ST_NearestValue(rast, 7 , ST_SetSRID(ST_MakePoint(  $1 , $2 ), 4326)) b7val, ST_NearestValue(rast, 8 , ST_SetSRID(ST_MakePoint(  $1 , $2 ), 4326)) b8val, ST_NearestValue(rast, 9 , ST_SetSRID(ST_MakePoint(  $1 , $2 ), 4326)) b9val, ST_NearestValue(rast, 10 , ST_SetSRID(ST_MakePoint(  $1 , $2 ), 4326)) b10val, ST_NearestValue(rast, 11 , ST_SetSRID(ST_MakePoint(  $1 , $2 ), 4326)) b11val,ST_NearestValue(rast, 12 , ST_SetSRID(ST_MakePoint(  $1 , $2 ), 4326)) b12val FROM public.wind_potential;", [lat,lng], (error, results) => {
+    // Gets the wind value based on location... I have to specify each band by hand, PostGIS doc did not have a way to get value from all bands at once.
+    pool.query("SELECT ST_Value(rast, 1 , ST_SetSRID(ST_MakePoint(  $1 , $2 ), 4326)) As b1val ,ST_Value(rast, 2 , ST_SetSRID(ST_MakePoint(  $1 , $2 ), 4326)) b2val, ST_Value(rast, 3 , ST_SetSRID(ST_MakePoint(  $1 , $2 ), 4326)) b3val, ST_Value(rast, 4 , ST_SetSRID(ST_MakePoint(  $1 , $2 ), 4326)) b4val, ST_Value(rast, 5 , ST_SetSRID(ST_MakePoint(  $1 , $2 ), 4326)) b5val, ST_Value(rast, 6 , ST_SetSRID(ST_MakePoint(  $1 , $2 ), 4326)) b6val, ST_Value(rast, 7 , ST_SetSRID(ST_MakePoint(  $1 , $2 ), 4326)) b7val, ST_Value(rast, 8 , ST_SetSRID(ST_MakePoint(  $1 , $2 ), 4326)) b8val, ST_Value(rast, 9 , ST_SetSRID(ST_MakePoint(  $1 , $2 ), 4326)) b9val, ST_Value(rast, 10 , ST_SetSRID(ST_MakePoint(  $1 , $2 ), 4326)) b10val, ST_Value(rast, 11 , ST_SetSRID(ST_MakePoint(  $1 , $2 ), 4326)) b11val,ST_Value(rast, 12 , ST_SetSRID(ST_MakePoint(  $1 , $2 ), 4326)) b12val FROM public.wind_potential;", [lat,lng], (error, results) => {
+        if(error){
+            throw error;
+        };
+        response.status(200).json(results.rows);
+    });
+};
+
+const getSolarAtPoint = (request, response) => {
+    const lat = parseFloat(request.params.lat);
+    const lng = parseFloat(request.params.lng);
+    // Gets the wind value based on location... I have to specify each band by hand, PostGIS doc did not have a way to get value from all bands at once.
+    pool.query("SELECT ST_Value(rast, 1 , ST_SetSRID(ST_MakePoint(  $1 , $2 ), 4326)) As b1val ,ST_Value(rast, 2 , ST_SetSRID(ST_MakePoint(  $1 , $2 ), 4326)) b2val, ST_Value(rast, 3 , ST_SetSRID(ST_MakePoint(  $1 , $2 ), 4326)) b3val, ST_Value(rast, 4 , ST_SetSRID(ST_MakePoint(  $1 , $2 ), 4326)) b4val, ST_Value(rast, 5 , ST_SetSRID(ST_MakePoint(  $1 , $2 ), 4326)) b5val, ST_Value(rast, 6 , ST_SetSRID(ST_MakePoint(  $1 , $2 ), 4326)) b6val, ST_Value(rast, 7 , ST_SetSRID(ST_MakePoint(  $1 , $2 ), 4326)) b7val, ST_Value(rast, 8 , ST_SetSRID(ST_MakePoint(  $1 , $2 ), 4326)) b8val, ST_Value(rast, 9 , ST_SetSRID(ST_MakePoint(  $1 , $2 ), 4326)) b9val, ST_Value(rast, 10 , ST_SetSRID(ST_MakePoint(  $1 , $2 ), 4326)) b10val, ST_Value(rast, 11 , ST_SetSRID(ST_MakePoint(  $1 , $2 ), 4326)) b11val,ST_Value(rast, 12 , ST_SetSRID(ST_MakePoint(  $1 , $2 ), 4326)) b12val FROM public.solar_potential;", [lat,lng], (error, results) => {
         if(error){
             throw error;
         };
@@ -97,4 +109,5 @@ module.exports = {
     getDistricts,
     getCityTown,
     getWindAtPoint,
+    getSolarAtPoint,
 };
