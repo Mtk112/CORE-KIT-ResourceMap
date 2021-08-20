@@ -4,12 +4,9 @@ import {Card, CardHeader} from 'reactstrap';
 import Solar from './Solar';
 import Wind from './Wind';
 import Settlement from './Settlement';
+import River from './River';
 
-function InfoTabs({solarData, monthData, settlementData}) {
-    const [month, setMonthData] = useState(monthData); 
-    //testing
-    const [solar, setSolarData] = useState(solarData);
-    console.log('settlementData in InfoTabs.jsx ' + settlementData);
+function InfoTabs({solarData, monthData, settlementData, riverData, positionData}) {
 
     return (
         <div>
@@ -17,14 +14,13 @@ function InfoTabs({solarData, monthData, settlementData}) {
                 <CardHeader tag="h5">
                     <Tabs defaultActiveKey="solar" className="tabs">
                         <Tab eventKey="solar" title="Solar" id="tab">
-                            <Solar solarData = {solar} />
+                            <Solar solarData = {solarData} />
                         </Tab>
                         <Tab eventKey="wind" title="Wind" id="tab">
-                            <p id="center">Nothing to show right now... Select location from the map to view wind data.</p>
-                            <Wind />
+                            <Wind positionData = {positionData}/>
                         </Tab>
                         <Tab eventKey="hydro" title="Hydro" id="tab">
-                            <p id="center">Nothing to show right now... Select a river segment from the map to view river data.</p>
+                            <River riverData = {riverData} />
                         </Tab>
                         <Tab eventKey="settlement" title="Settlement" id="tab">
                             <Settlement settlementData = {settlementData}/>

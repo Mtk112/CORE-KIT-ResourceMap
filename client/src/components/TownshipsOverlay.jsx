@@ -16,6 +16,12 @@ class TownshipsOverlay extends Component{
             console.log('TownshipID: ', e.target.feature.properties.gid + ', Township name: ',  e.target.feature.properties.name_3);  
            }
         });
+        /* Ensures that this layer is added to the bottom of the layer stack as to not interfere with map clicks */
+        layer.on({
+            'add': function(){
+              layer.bringToBack()
+            }
+         });
     };
 
     async getTownships(){
@@ -32,15 +38,13 @@ class TownshipsOverlay extends Component{
     render(){
         //changing the color of the layer
         const style = {
-            color: 'ivory',
-            fillColor: 'ivory'
+            color: '#228B22',
+            fillColor: '#228B22'
         };
 
         return(
             this.state.townships && (
-            <Pane className="townshipPane" id="pane">
-                <GeoJSON data={this.state.townships} ref={this.townshipsRef} onEachFeature={this.onEachFeature.bind(this)} style={style}/>
-            </Pane>
+            <GeoJSON data={this.state.townships} ref={this.townshipsRef} onEachFeature={this.onEachFeature.bind(this)} style={style} />
             )
         )
     };

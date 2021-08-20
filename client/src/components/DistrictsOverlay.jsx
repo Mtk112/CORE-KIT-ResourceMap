@@ -16,7 +16,13 @@ class DistrictsOverlay extends Component {
           'click': function (e) {
             console.log('DistrictID: ', e.target.feature.properties.gid + ', District name: ', e.target.feature.properties.name_2 + ' / ', e.target.feature.properties.varname_2 );  
            }
-        })
+        });
+        /* Ensures that this layer is added to the bottom of the layer stack as to not interfere with map clicks. */
+        layer.on({
+            'add': function(){
+              layer.bringToBack()
+            }
+        });
     }
 
     async getDistricts(){
@@ -33,8 +39,8 @@ class DistrictsOverlay extends Component {
     render(){
         //changing the color of the layer
         const style = {
-            color: 'DarkOliveGreen',
-            fillColor: 'DarkOliveGreen'
+            color: '#A52A2A',
+            fillColor: '#A52A2A'
         };
         return(
             this.state.districts && (

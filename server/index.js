@@ -25,6 +25,7 @@ app.get('/grid', db.getGrid);
 app.get('/districts', db.getDistricts);
 app.get('/city_town', db.getCityTown);
 app.get('/settlement/:id', db.getSettlement);
+app.get('/windAtPoint/:lat/:lng', db.getWindAtPoint);
 app.listen(port, () => {
     console.log(`App running on port ${port}.`);
 });
