@@ -25,17 +25,24 @@ function Map() {
 
   // Adds a component for map clicks (for some reason the first click does not set position).
   function MyComponent() {
+    // Gets solar_potential values from map click location.
     async function getSolarAtPoint(lat, lng){
       const res = await axios.get('http://localhost:5000/solarAtPoint/'+lat+'/'+lng);
       const { data } = await res;
       setSolar(Object.values(data[0]));
     };
-
+     // Gets windspeed values from map click location.
     async function getWindAtPoint(lat, lng){
       const res = await axios.get('http://localhost:5000/windAtPoint/'+lat+'/'+lng);
       const { data } = await res;
       setWind(Object.values(data[0]));
     };
+    // Gets settlement data from settlement clicked
+    async function getSettlement(gid){
+      const res = await axios.get('http://localhost:5000/settlement/' + gid);
+      const { data } = await res;
+      setSettlement(data[0]);
+  };
 
     const map = useMapEvents({
       click: (e) => {
@@ -69,7 +76,7 @@ function Map() {
             }
           }
         }
-        // if at least one feature found, show it
+        //checks that at least one feature was found
         if (overlapingFeatures.length) {
           //console.log(overlapingFeatures);
             overlapingFeatures.map(function(obj) {
@@ -77,7 +84,7 @@ function Map() {
                 obj doesnt have layer data so layer is identified by unique property.              
             */
               if(obj.feature.properties.name){
-                setSettlement(obj.feature.properties.gid);
+                getSettlement(obj.feature.properties.gid);
               }
               else if(obj.feature.properties.riverid){
                 console.log('Got to setRiver part..');
@@ -89,9 +96,7 @@ function Map() {
               return null;
             })
        }
-        //console.log('Settlement : ' + settlement );
-        //console.log('River: ' + river);
-        //console.log(e.latlng);
+       //Pans map to the location clicked ** ISSUE: Map height seem to still be 100vh, but container is set to 50vh? causes the map to pan wrong.
         map.panTo([e.latlng.lat, e.latlng.lng]);
         console.log("Position before getSolar() : " + position);
         if(mapHeight === '100vh'){
