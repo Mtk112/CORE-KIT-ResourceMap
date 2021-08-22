@@ -56,7 +56,25 @@ psql -U postgres -h localhost -p 5432 corekit < C:\Users\Miikka\Downloads\coreki
 <br>
 Then download and install Visual Studio Code (https://code.visualstudio.com/) or any equivalent.
 <br>
-Clone CORE-KIT-ResourceMap repository ()
+Clone or download CORE-KIT-ResourceMap repository (https://github.com/Mtk112/CORE-KIT-ResourceMap).
+![image](https://user-images.githubusercontent.com/14816655/130367419-774fe438-f67a-4ba0-95a7-e00f5f228288.png).
+<br>
+Open the CORE-KIT-ResourceMap with Visual Studio Code, and open terminal by selecting View -> Terminal.
+![image](https://user-images.githubusercontent.com/14816655/130367619-298a6e6b-b3ea-4c1d-bb3f-79457628dfcf.png)
+<br>
+On the terminal write the following commands:<br>
+cd server<br>
+npm i <br>
+npm start <br>
+Then open a second terminal and write the following:<br>
+cd client <br>
+npm i <br>
+npm start <br>
+<br>
+And the application should now be running on your browser locally!
+
+
+
 
 
 
