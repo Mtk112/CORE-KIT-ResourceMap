@@ -89,8 +89,12 @@ npm i
 <br>
 npm start 
 <br>
-<br>
 And the application should now be running on your browser locally!
+<br>
+<br>
+If you chose to use different Superuser username, database name, password or port when installing postgresSQL modify db.js file in CORE-KIT-ResourceMap\server\db.js to match what you chose.
+<br>
+![image](https://user-images.githubusercontent.com/14816655/130372352-b4c48a7f-577d-4d0a-88cf-8727c3443e72.png)
 
 
 
