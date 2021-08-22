@@ -41,7 +41,7 @@ Repeat but select postgis_raster.
 <br>
 Next download corekitdump.sql from https://drive.google.com/drive/folders/1rAR9lxN_Z5AAE8O4Vupn6p-G8RIqoesz?usp=sharing.
 
-Navigate to PostgreSQL\13\bin folder and tap on the filepath and type cmd.
+Navigate to PostgreSQL\13\bin folder and tap on the filepath and type cmd and press enter to launch command line.
 ![image](https://user-images.githubusercontent.com/14816655/130366812-cd04f874-b489-4ead-9df4-cf689c433452.png)
 <br>
 <br>
@@ -53,6 +53,10 @@ For example:
 <br>
 psql -U postgres -h localhost -p 5432 corekit < C:\Users\Miikka\Downloads\corekitdump.sql
 <br>
+<br>
+Then download and install Visual Studio Code (https://code.visualstudio.com/) or any equivalent.
+<br>
+Clone CORE-KIT-ResourceMap repository ()
 
 
 
