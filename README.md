@@ -3,9 +3,9 @@ Map application for displaying estimated renewable energy resources in Shan-Stat
 <br/>
 Installation Steps
 <br/>
-Install Node.js from https://nodejs.org/en/.
+Download and install Node.js from https://nodejs.org/en/.
 <br/>
-Download postgreSQL from https://www.postgresql.org/.
+Download and install postgreSQL from https://www.postgresql.org/.
 <br/>
 When installing postgreSQL set the following:
 <br/>
@@ -27,6 +27,16 @@ Then expand corekit and right click on extensions -> create -> extension. Select
 Repeat but select postgis_raster.
 <br/>
 ![image](https://user-images.githubusercontent.com/14816655/130365836-5236b9cf-2749-4e5f-ac7b-cc198ff5a466.png)
+<br>
+Next download corekitdump.sql from https://drive.google.com/drive/folders/1rAR9lxN_Z5AAE8O4Vupn6p-G8RIqoesz?usp=sharing.
+
+Navigate to PostgreSQL\13\bin folder and tap on the filepath and type cmd.
+![image](https://user-images.githubusercontent.com/14816655/130366812-cd04f874-b489-4ead-9df4-cf689c433452.png)
+<br>
+On command line write the following:
+psql -U [postgreSQL_superuser] -h localhost -p [postgreSQL_portnumber] [databasename] < [path_to_corekitdump.sql]
+For example: 
+psql -U postgres -h localhost -p 5432 corekit < C:\Users\Miikka\Downloads\corekitdump.sql
 
 
 
