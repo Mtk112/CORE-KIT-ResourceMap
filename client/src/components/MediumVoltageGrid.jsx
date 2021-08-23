@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { GeoJSON, Pane } from 'react-leaflet';
+import { GeoJSON } from 'react-leaflet';
 
+//might change this to a functional component for consistancy.
 class MediumVoltageGrid extends Component{
 
     constructor(){
@@ -18,7 +19,7 @@ class MediumVoltageGrid extends Component{
            }
         });
     };
-
+    // gets the medium_voltage_grid data from PostgreSQL.
     async getGrid(){
         const res = await axios.get('http://localhost:5000/grid');
         const { data } = await res;
@@ -30,18 +31,16 @@ class MediumVoltageGrid extends Component{
     };
 
     render(){
-        //changing the color of the layer
+        //changing the color of the feature on layer
         const style = {
             color: 'orange',
             fillColor: 'orange'
         };
         return(
             this.state.mvGrid && (
-                <Pane className="gridPane" id="pane">
-                    <GeoJSON data={this.state.mvGrid} ref={this.mvGridRef} onEachFeature={this.onEachFeature.bind(this)} style={style}/>
-                </Pane>
+                <GeoJSON data={this.state.mvGrid} ref={this.mvGridRef} onEachFeature={this.onEachFeature.bind(this)} style={style}/>
             )
-        )
+        );
     };
-}
+};
 export default MediumVoltageGrid;

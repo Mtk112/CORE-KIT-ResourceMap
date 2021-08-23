@@ -1,9 +1,7 @@
-import React, { useState } from 'react'
-import axios from 'axios';
+import React from 'react'
 
 /* ISSUE -- this keeps looping once map is clicked */
 function Settlement({settlementData}){
-    const [settlement, setSettlement] = useState(''); 
 
 
     //console.log('Settlement data in Settlement.jsx: ' + settlementData);

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { GeoJSON, Pane } from 'react-leaflet';
+import { GeoJSON } from 'react-leaflet';
 
+//might change this to functional component for consistancy.
 class RiversOverlay extends Component {
     constructor(){
         super();
@@ -18,7 +19,7 @@ class RiversOverlay extends Component {
            }
         })
     }
-
+    //gets the river data from PostgreSQL.
     async getRivers(){
         const res = await axios.get('http://localhost:5000/rivers');
         const { data } = await res;
@@ -33,9 +34,7 @@ class RiversOverlay extends Component {
     render(){
         return(
             this.state.rivers && (
-                <Pane className="riversPane" id="pane">
-                    <GeoJSON data={this.state.rivers} ref={this.riversRef} onEachFeature={this.onEachFeature.bind(this)} />
-                </Pane>
+                <GeoJSON data={this.state.rivers} ref={this.riversRef} onEachFeature={this.onEachFeature.bind(this)} />
             )
         );
     };

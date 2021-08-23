@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { GeoJSON, Pane } from 'react-leaflet';
+import { GeoJSON } from 'react-leaflet';
 
 class TownshipsOverlay extends Component{
     constructor(){
@@ -24,6 +24,7 @@ class TownshipsOverlay extends Component{
          });
     };
 
+    // gets Township data from PostgreSQL
     async getTownships(){
         const res = await axios.get('http://localhost:5000/townships');
         const { data } = await res;
@@ -36,7 +37,7 @@ class TownshipsOverlay extends Component{
     };
 
     render(){
-        //changing the color of the layer
+        //changing the color of the features in this layer
         const style = {
             color: '#228B22',
             fillColor: '#228B22'

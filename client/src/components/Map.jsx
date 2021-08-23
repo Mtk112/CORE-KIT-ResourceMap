@@ -1,17 +1,17 @@
 import React, {useState} from 'react';
-import { MapContainer, useMapEvents, MapConsumer } from 'react-leaflet';
+import { MapContainer, useMapEvents } from 'react-leaflet';
 import { DropdownButton, Dropdown } from 'react-bootstrap';
 import axios from 'axios';
 import L from 'leaflet';
 import Layers from './Layers';
 import InfoTabs from './InfoTabs';
+import 'leaflet/dist/leaflet.css';
 
 
 function Map() {
   // State variables
   const [month, setMonth] = useState('January');
   const [mapHeight, setMapHeight] = useState('100vh');
-  const [position, setPosition] = useState('');
   const [solar, setSolar] = useState('');
   const [wind, setWind] = useState('');
   const [settlement, setSettlement] = useState([]);
@@ -46,8 +46,6 @@ function Map() {
 
     const map = useMapEvents({
       click: (e) => {
-        //Sets position based on point clicked.
-        setPosition([e.latlng.lat, e.latlng.lng]);
         //gets solar & wind data from raster in database based on position
         getSolarAtPoint(e.latlng.lat, e.latlng.lng);
         getWindAtPoint(e.latlng.lat, e.latlng.lng);
@@ -96,9 +94,8 @@ function Map() {
               return null;
             })
        }
-       //Pans map to the location clicked ** ISSUE: Map height seem to still be 100vh, but container is set to 50vh? causes the map to pan wrong.
-        map.panTo([e.latlng.lat, e.latlng.lng]);
-        console.log("Position before getSolar() : " + position);
+       //Pans map to the location clicked ** ISSUE: Map height seem to still be 100vh, but container is set to 50vh? causes the setView to be at the very bottom of the resized map.
+        map.setView([e.latlng.lat, e.latlng.lng]);
         if(mapHeight === '100vh'){
           setMapHeight('50vh');
         }

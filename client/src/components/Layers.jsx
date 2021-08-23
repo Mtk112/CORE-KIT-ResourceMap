@@ -8,7 +8,7 @@ import DistrictsOverlay from './DistrictsOverlay';
 import CityTownOverlay from './CityTownOverlay';
 
 
-
+// might change this to a functional component for consistancy.
 class Layers  extends Component {
     //Renders each base tilelayer, and overlay from each Overlay component.
     render(){
