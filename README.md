@@ -2,7 +2,7 @@
 Map application for displaying estimated renewable energy resources in Shan-State, Myanmar.
 <br>
 <br>
-# Installation Steps
+# Installation
 <br>
 <br>
 Download and install Node.js from https://nodejs.org/en/.
