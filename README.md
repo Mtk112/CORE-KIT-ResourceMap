@@ -14,16 +14,16 @@ Download and install postgreSQL from https://www.postgresql.org/.
 When installing postgreSQL set the following:
 <br>
 <br>
-!! NOTE !!
-<br>
-These can be changed to anything, but then credentials needs to be changed in the source-code of CORE-KIT ResourceMap.
-<br>
-<br>
 Superuser: postgres
 <br>
 password: admin
 <br>
 port: 5432
+<br>
+<br>
+!! NOTE !!
+<br>
+These can be changed to anything, but then credentials needs to be changed in the source-code of CORE-KIT ResourceMap.
 <br>
 <br>
 When postgreSQL finishes the installation there will be prompt about stack builder. Launch it and select postGIS 3.1 under spatial extensions.
