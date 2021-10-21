@@ -43,6 +43,7 @@ function Map() {
         //gets solar & wind data from raster in database based on position
         getSolarAtPoint(e.latlng.lat, e.latlng.lng);
         getWindAtPoint(e.latlng.lat, e.latlng.lng);
+        var riverHtml = "", settlementHtml = "", districtHtml = "", townshipHtml = "", gridHtml = "";
         //creates bounds for area clicked. 
         var clickBounds = L.latLngBounds(e.latlng, e.latlng);
         var overlapingFeatures = [];
@@ -70,7 +71,6 @@ function Map() {
         }
         //checks that at least one feature was found
         if (overlapingFeatures.length) {
-          var riverHtml = "", settlementHtml = "", districtHtml = "", townshipHtml = "", gridHtml = "";
           //console.log(overlapingFeatures);
             overlapingFeatures.map(function(obj) {
             /*  Checks which layer the feature belongs to and saves the gid of the feature. 
@@ -100,9 +100,9 @@ function Map() {
               }
               return null;
             })
-            var html = "Latitude: " + e.latlng.lat + "</br> Longitude: " + e.latlng.lng + settlementHtml + riverHtml + districtHtml + townshipHtml + gridHtml;
+            
        }
-       
+       var html = "Latitude: " + e.latlng.lat + "</br> Longitude: " + e.latlng.lng + settlementHtml + riverHtml + districtHtml + townshipHtml + gridHtml;
         map.openPopup(html, e.latlng);
        //Pans map to the location clicked ** ISSUE: Map height seem to still be 100vh, but container is set to 50vh? causes the setView to be at the very bottom of the resized map.
         //map.setView([e.latlng.lat, e.latlng.lng]);
