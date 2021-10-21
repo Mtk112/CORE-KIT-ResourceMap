@@ -31,18 +31,12 @@ function Map() {
       const { data } = await res;
       setSolar(Object.values(data[0]));
     };
-     // Gets windspeed values from map click location.
+     // Gets wind speed values from map click location.
     async function getWindAtPoint(lat, lng){
       const res = await axios.get('http://localhost:5000/windAtPoint/'+lat+'/'+lng);
       const { data } = await res;
       setWind(Object.values(data[0]));
     };
-    // Gets settlement data from settlement clicked
-    async function getSettlement(gid){
-      const res = await axios.get('http://localhost:5000/settlement/' + gid);
-      const { data } = await res;
-      setSettlement(data[0]);
-  };
 
     const map = useMapEvents({
       click: (e) => {
@@ -76,26 +70,42 @@ function Map() {
         }
         //checks that at least one feature was found
         if (overlapingFeatures.length) {
+          var riverHtml = "", settlementHtml = "", districtHtml = "", townshipHtml = "", gridHtml = "";
           //console.log(overlapingFeatures);
             overlapingFeatures.map(function(obj) {
             /*  Checks which layer the feature belongs to and saves the gid of the feature. 
                 obj doesnt have layer data so layer is identified by unique property.              
             */
               if(obj.feature.properties.name){
-                getSettlement(obj.feature.properties.gid);
+                //getSettlement(obj.feature.properties.gid);
+                setSettlement(obj.feature.properties);
+                settlementHtml ="</br> Settlement: " + obj.feature.properties.name;
+                console.log(obj.feature.properties);
               }
               else if(obj.feature.properties.riverid){
-                console.log('Got to setRiver part..');
                 setRiver(obj.feature.properties.riverid);
+                riverHtml = "</br> River ID: " + obj.feature.properties.riverid;
+              }
+              else if(obj.feature.properties.name_2){
+                districtHtml = "</br> District: " + obj.feature.properties.name_2;
+              }
+              else if(obj.feature.properties.name_3){
+                townshipHtml = "</br> Township: " + obj.feature.properties.name_3;
+              }
+              else if(obj.feature.properties.ex_from){
+                gridHtml = "</br> Medium voltage grid ID: " + obj.feature.properties.gid;
               }
               else{
-                console.log('This feature is not a settlement or a river.');
+                console.log('Unknown feature???');
               }
               return null;
             })
+            var html = "Latitude: " + e.latlng.lat + "</br> Longitude: " + e.latlng.lng + settlementHtml + riverHtml + districtHtml + townshipHtml + gridHtml;
        }
+       
+        map.openPopup(html, e.latlng);
        //Pans map to the location clicked ** ISSUE: Map height seem to still be 100vh, but container is set to 50vh? causes the setView to be at the very bottom of the resized map.
-        map.setView([e.latlng.lat, e.latlng.lng]);
+        //map.setView([e.latlng.lat, e.latlng.lng]);
         if(mapHeight === '100vh'){
           setMapHeight('50vh');
         }
