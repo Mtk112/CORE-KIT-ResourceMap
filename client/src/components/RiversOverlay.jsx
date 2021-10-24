@@ -32,9 +32,13 @@ class RiversOverlay extends Component {
     };
 
     render(){
+        const style = {
+            color: 'lightseagreen',
+            fillColor: 'lightseagreen'
+        };
         return(
             this.state.rivers && (
-                <GeoJSON data={this.state.rivers} ref={this.riversRef} onEachFeature={this.onEachFeature.bind(this)} />
+                <GeoJSON data={this.state.rivers} ref={this.riversRef} onEachFeature={this.onEachFeature.bind(this)} style={style} />
             )
         );
     };

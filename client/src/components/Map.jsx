@@ -5,13 +5,14 @@ import axios from 'axios';
 import L from 'leaflet';
 import Layers from './Layers';
 import InfoTabs from './InfoTabs';
+import Legend from './Legend'
 import 'leaflet/dist/leaflet.css';
 
 
 function Map() {
   // State variables
-  const [month, setMonth] = useState('January');
   const [mapHeight, setMapHeight] = useState('100vh');
+  const [map, setMap] = useState(null);
   const [solar, setSolar] = useState('');
   const [wind, setWind] = useState('');
   const [settlement, setSettlement] = useState([]);
@@ -19,9 +20,6 @@ function Map() {
 
 
   // Sets month based on which month is selected from dropdown, this will be used for solar and wind raster overlays... if i can block map.click happening under the dropdown.
-  const change = (e) => {
-    setMonth(e);  
-  }
 
   // Adds a component for map clicks (for some reason the first click does not set position).
   function MyComponent() {
@@ -36,6 +34,14 @@ function Map() {
       const res = await axios.get('http://localhost:5000/windAtPoint/'+lat+'/'+lng);
       const { data } = await res;
       setWind(Object.values(data[0]));
+      
+    };
+
+    async function getSolarAvgAtPoint(lat, lng){
+      const res = await axios.get('http://localhost:5000/solarAtPoint/'+lat+'/'+lng);
+      const { data } = await res;
+      const value =(Object.values(data[0]));
+      return value;
     };
 
     const map = useMapEvents({
@@ -53,6 +59,7 @@ function Map() {
           //checks that the layer has features i.e. that the layer is overlay.
           if (overlay._layers) {
             //goes through each feature
+            console.log(overlay._layers);
             for (var f in overlay._layers) {
               var feature = overlay._layers[f];
               var bounds;
@@ -76,38 +83,46 @@ function Map() {
             /*  Checks which layer the feature belongs to and saves the gid of the feature. 
                 obj doesnt have layer data so layer is identified by unique property.              
             */
+              console.log(obj);
               if(obj.feature.properties.name){
-                //getSettlement(obj.feature.properties.gid);
                 setSettlement(obj.feature.properties);
-                settlementHtml ="</br> Settlement: " + obj.feature.properties.name;
-                console.log(obj.feature.properties);
+                settlementHtml ="</br><h4>Settlement</h1> Settlement: " + obj.feature.properties.name;
               }
               else if(obj.feature.properties.riverid){
                 setRiver(obj.feature.properties.riverid);
-                riverHtml = "</br> River ID: " + obj.feature.properties.riverid;
+                riverHtml = "</br><h4>River</h1> River ID: " + obj.feature.properties.riverid;
               }
               else if(obj.feature.properties.name_2){
-                districtHtml = "</br> District: " + obj.feature.properties.name_2;
+                districtHtml = "</br><h4>District</h1> District: " + obj.feature.properties.name_2;
               }
               else if(obj.feature.properties.name_3){
-                townshipHtml = "</br> Township: " + obj.feature.properties.name_3;
+                townshipHtml = "</br><h4>Township</h1> Township: " + obj.feature.properties.name_3;
               }
               else if(obj.feature.properties.ex_from){
-                gridHtml = "</br> Medium voltage grid ID: " + obj.feature.properties.gid;
+                gridHtml = "</br><h4>Medium Voltage Grid</h1> Medium voltage grid ID: " + obj.feature.properties.gid;
               }
               else{
-                console.log('Unknown feature???');
+                console.log('Unknown feature...: ' +obj);
               }
               return null;
             })
             
        }
-       var html = "Latitude: " + e.latlng.lat + "</br> Longitude: " + e.latlng.lng + settlementHtml + riverHtml + districtHtml + townshipHtml + gridHtml;
+       var avgWind = null;
+       var avgSolar = null;
+       if(wind && solar){
+        avgWind = ((wind[0] + wind[1] + wind[2] + wind[3] + wind[4] + wind[5] + wind[6] + wind[7] + wind[8] + wind[9] + wind[10] + wind[11]) / 12).toFixed(2);
+        avgSolar = ((solar[0] + solar[1] + solar[2] + solar[3] + solar[4] + solar[5] + solar[6] + solar[7] + solar[8] + solar[9] + solar[10] + solar[11]) / 12).toFixed(2);
+        var html = "<h4>Coordinates</h4> Latitude: " + e.latlng.lat + "</br> Longitude: " + e.latlng.lng + "<h4>Wind & Solar </h4> Average wind speed (m/s) " + avgWind + "</br> Average solar potential kwp per kwh: " + avgSolar  + settlementHtml + riverHtml + districtHtml + townshipHtml + gridHtml;
+       }
+
+       console.log(avgWind);
+      
         map.openPopup(html, e.latlng);
        //Pans map to the location clicked ** ISSUE: Map height seem to still be 100vh, but container is set to 50vh? causes the setView to be at the very bottom of the resized map.
         //map.setView([e.latlng.lat, e.latlng.lng]);
         if(mapHeight === '100vh'){
-          setMapHeight('50vh');
+          setMapHeight('60vh');
         }
         
       }
@@ -122,26 +137,15 @@ function Map() {
         center={[20.7888, 97.0337]}
         zoom={9}
         style={{height: mapHeight}}
+        preferCanvas={true}
+        whenCreated={setMap}
       >
         <MyComponent/>
-        <DropdownButton id="dropdown-basic-button" title={month} onSelect={change}>
-          <Dropdown.Item eventKey='January'>January</Dropdown.Item>
-          <Dropdown.Item eventKey='February'>February</Dropdown.Item>
-          <Dropdown.Item eventKey='March'>March</Dropdown.Item>
-          <Dropdown.Item eventKey='April'>April</Dropdown.Item>
-          <Dropdown.Item eventKey='May'>May</Dropdown.Item>
-          <Dropdown.Item eventKey='June'>June</Dropdown.Item>
-          <Dropdown.Item eventKey='July'>July</Dropdown.Item>
-          <Dropdown.Item eventKey='August'>August</Dropdown.Item>
-          <Dropdown.Item eventKey='September'>September</Dropdown.Item>
-          <Dropdown.Item eventKey='October'>October</Dropdown.Item>
-          <Dropdown.Item eventKey='November'>November</Dropdown.Item>
-          <Dropdown.Item eventKey='December' >December</Dropdown.Item>
-        </DropdownButton>
         <Layers />
+        <Legend map={map}/>
       </MapContainer>
       {/* using solar data to check if map has been clicked. when map is clicked the infotabs component is rendered */}
-      { solar && <InfoTabs key="infoTabs" solarData = {solar} monthData = {month} settlementData = {settlement} riverData = {river} windData = {wind} / > }   
+      { solar && <InfoTabs key="infoTabs" solarData = {solar} settlementData = {settlement} riverData = {river} windData = {wind} / > }   
     </>
   )
 }

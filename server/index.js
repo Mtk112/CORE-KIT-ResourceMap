@@ -27,6 +27,7 @@ app.get('/city_town', db.getCityTown);
 app.get('/settlement/:id', db.getSettlement);
 app.get('/windAtPoint/:lng/:lat', db.getWindAtPoint);
 app.get('/solarAtPoint/:lng/:lat', db.getSolarAtPoint);
+//app.get('/solarBand1', db.getSolarBand1);
 app.listen(port, () => {
     console.log(`App running on port ${port}.`);
 });

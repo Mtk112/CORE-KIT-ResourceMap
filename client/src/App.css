@@ -4,6 +4,7 @@ html, body {
   padding: 0px;
   width: 100vw;
   height: 100vh;
+  background: black;
 }
 
 #root {
@@ -46,11 +47,34 @@ html, body {
 #center{
   text-align: center;
 }
-#dropdown-basic-button{
-  z-index: 5000;
-  position: absolute;
-  margin-left: 50;
+h4{
+  font-size: 1.5em;
+  margin-bottom: 0px;
+  font-weight: bold;
+  padding-bottom: 0px;
 }
-#ddItem{
-  z-index: 1000;
+
+#settlement{
+  color: purple;
+}
+
+#city{
+  color: red;
+}
+
+#grid{
+  color: orange;
+}
+#river{
+  color: lightseagreen;
+}
+#district{
+  color: #A52A2A;
+}
+#township{
+  color: #228B22 ;
+}
+.info{
+  background: rgb(245, 237, 237);
+  padding: 5px;
 }

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { TileLayer, LayersControl } from 'react-leaflet';
 import SettlementsOverlay from './SettlementsOverlay';
 import RiversOverlay from './RiversOverlay';
@@ -6,12 +6,28 @@ import TownshipsOverlay from './TownshipsOverlay';
 import MediumVoltageGrid from './MediumVoltageGrid';
 import DistrictsOverlay from './DistrictsOverlay';
 import CityTownOverlay from './CityTownOverlay';
-
+import WindLayer from './WindLayer';
+import SolarLayer from './SolarLayer';
 
 // might change this to a functional component for consistancy.
-class Layers  extends Component {
-    //Renders each base tilelayer, and overlay from each Overlay component.
-    render(){
+function Layers() {
+    /*Renders each base tilelayer, and overlay from each Overlay component.
+    var solarPotential1 = L.leafletGeotiff('data/solar_potential_kwhperkwp.tif',
+    {band: 0,
+    opacity: .1,
+    renderer: new L.LeafletGeotiff.Plotty({
+      colorScale: 'rdbu',
+      clampLow: false,
+      clampHigh: true,
+      displayMin: 3.5,
+      displayMax: 6,
+        }),
+    });*/
+    /*const options = {
+        pixelValuesToColorFn: values => values[0] === -99.0 ? null : `rgba(${values[0]},${values[1]},${values[2]},${values[3]})`,
+        resolution: 128,
+        opacity: 0.5
+    };*/
         return (
         //Adding tilelayers base layers to the leaflet map.
             <LayersControl position="topright">
@@ -73,9 +89,14 @@ class Layers  extends Component {
                 <LayersControl.Overlay name="City / Town">
                     <CityTownOverlay />    
                 </LayersControl.Overlay>
+                <LayersControl.Overlay name="Solar Potential Average Over 12 Months" >
+                    <SolarLayer url={"https://raw.githubusercontent.com/Mtk112/CORE-KIT/master/inst/extdata/solar_potential_kwhperkwp.tif"}/>
+                </LayersControl.Overlay>
+                <LayersControl.Overlay name="Wind Speed Average Over 12 Months" >
+                    <WindLayer url={"https://raw.githubusercontent.com/Mtk112/CORE-KIT/master/inst/extdata/wind_potential.tif"}/>
+                </LayersControl.Overlay>
             </LayersControl>
         )
-    }
 }
 
 export default Layers;
