@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
-import { MapContainer, useMapEvents } from 'react-leaflet';
-import { DropdownButton, Dropdown } from 'react-bootstrap';
+import { MapContainer, Popup, useMapEvents } from 'react-leaflet';
 import axios from 'axios';
 import L from 'leaflet';
 import Layers from './Layers';
 import InfoTabs from './InfoTabs';
-import Legend from './Legend'
+import Legend from './Legend';
+import {PopupDistrict, PopupLatLng, PopupRiver, PopupSettlement, PopupWindSolar, PopupTownship, PopupGrid} from './InfoPopup';
 import 'leaflet/dist/leaflet.css';
 
 
@@ -15,8 +15,18 @@ function Map() {
   const [map, setMap] = useState(null);
   const [solar, setSolar] = useState('');
   const [wind, setWind] = useState('');
-  const [settlement, setSettlement] = useState([]);
+  const [avgSolar, setAvgSolar] = useState('');
+  const [avgWind, setAvgWind] = useState('');
+  const [settlement, setSettlement] = useState('');
+  const [district, setDistrict] = useState('');
+  const [township, setTownship] = useState('');
   const [river, setRiver] = useState('');
+  const [grid, setGrid] = useState('');
+  const [popupText, setPopupText] = useState('');
+  const [lat, setLat] = useState('');
+  const [lng, setLng] = useState('');
+  const [latlng, setLatLng] = useState('');
+
 
 
   // Sets month based on which month is selected from dropdown, this will be used for solar and wind raster overlays... if i can block map.click happening under the dropdown.
@@ -28,28 +38,41 @@ function Map() {
       const res = await axios.get('http://localhost:5000/solarAtPoint/'+lat+'/'+lng);
       const { data } = await res;
       setSolar(Object.values(data[0]));
+      var sum = Object.values(data[0]).reduce(function(a, b){
+        return a + b;
+      }, 0);
+      setAvgSolar((sum /12).toFixed(2));
     };
      // Gets wind speed values from map click location.
     async function getWindAtPoint(lat, lng){
       const res = await axios.get('http://localhost:5000/windAtPoint/'+lat+'/'+lng);
       const { data } = await res;
       setWind(Object.values(data[0]));
-      
-    };
-
-    async function getSolarAvgAtPoint(lat, lng){
-      const res = await axios.get('http://localhost:5000/solarAtPoint/'+lat+'/'+lng);
-      const { data } = await res;
-      const value =(Object.values(data[0]));
-      return value;
+      var sum = Object.values(data[0]).reduce(function(a, b){
+        return a + b;
+      }, 0);
+      setAvgWind((sum / 12).toFixed(2));
     };
 
     const map = useMapEvents({
       click: (e) => {
         //gets solar & wind data from raster in database based on position
+        setSettlement('');
+        setRiver('');
+        setDistrict('');
+        setTownship('');
+        setRiver('');
+        setGrid('');
+        setLat(e.latlng.lat);
+        setLng(e.latlng.lng);
+        setLatLng(e.latlng);
         getSolarAtPoint(e.latlng.lat, e.latlng.lng);
         getWindAtPoint(e.latlng.lat, e.latlng.lng);
         var riverHtml = "", settlementHtml = "", districtHtml = "", townshipHtml = "", gridHtml = "";
+
+        if(map.drawingPoints){
+
+        }
         //creates bounds for area clicked. 
         var clickBounds = L.latLngBounds(e.latlng, e.latlng);
         var overlapingFeatures = [];
@@ -79,25 +102,23 @@ function Map() {
         if (overlapingFeatures.length) {
           //console.log(overlapingFeatures);
             overlapingFeatures.map(function(obj) {
-            /*  Checks which layer the feature belongs to and saves the gid of the feature. 
+            /*  Checks which layer the feature belongs to and saves the properties of the feature. 
                 obj doesnt have layer data so layer is identified by unique property.              
             */
               if(obj.feature.properties.name){
                 setSettlement(obj.feature.properties);
-                settlementHtml ="</br><h4>Settlement</h1> Settlement: " + obj.feature.properties.name;
               }
               else if(obj.feature.properties.riverid){
-                setRiver(obj.feature.properties.riverid);
-                riverHtml = "</br><h4>River</h1> River ID: " + obj.feature.properties.riverid;
+                setRiver(obj.feature.properties);
               }
               else if(obj.feature.properties.name_2){
-                districtHtml = "</br><h4>District</h1> District: " + obj.feature.properties.name_2;
+                setDistrict(obj.feature.properties);
               }
               else if(obj.feature.properties.name_3){
-                townshipHtml = "</br><h4>Township</h1> Township: " + obj.feature.properties.name_3;
+                setTownship(obj.feature.properties);
               }
               else if(obj.feature.properties.ex_from){
-                gridHtml = "</br><h4>Medium Voltage Grid</h1> Medium voltage grid ID: " + obj.feature.properties.gid;
+                setGrid(obj.feature.properties);
               }
               else{
                 console.log('Unknown feature...: ' +obj);
@@ -108,22 +129,19 @@ function Map() {
        }
         //Pans map to the location clicked ** ISSUE: Map height seem to still be 100vh, but container is set to 50vh? causes the setView to be at the very bottom of the resized map.
         //map.setView([e.latlng.lat, e.latlng.lng]);
-
-       var avgWind = null;
-       var avgSolar = null;
-       if(wind && solar){
-        avgWind = ((wind[0] + wind[1] + wind[2] + wind[3] + wind[4] + wind[5] + wind[6] + wind[7] + wind[8] + wind[9] + wind[10] + wind[11]) / 12).toFixed(2);
-        avgSolar = ((solar[0] + solar[1] + solar[2] + solar[3] + solar[4] + solar[5] + solar[6] + solar[7] + solar[8] + solar[9] + solar[10] + solar[11]) / 12).toFixed(2);
-        var html = "<h4>Coordinates</h4> Latitude: " + e.latlng.lat + "</br> Longitude: " + e.latlng.lng + "<h4>Wind & Solar </h4> Average wind speed (m/s) " + avgWind + "</br> Average solar potential kwp per kwh: " + avgSolar  + settlementHtml + riverHtml + districtHtml + townshipHtml + gridHtml;
-        map.openPopup(html, e.latlng);
-       }
+       //if(wind && solar){
+        //var avgWind = ((wind[0] + wind[1] + wind[2] + wind[3] + wind[4] + wind[5] + wind[6] + wind[7] + wind[8] + wind[9] + wind[10] + wind[11]) / 12).toFixed(2);
+        //var avgSolar = ((solar[0] + solar[1] + solar[2] + solar[3] + solar[4] + solar[5] + solar[6] + solar[7] + solar[8] + solar[9] + solar[10] + solar[11]) / 12).toFixed(2);
+        setPopupText ( settlementHtml + riverHtml + districtHtml + townshipHtml + gridHtml);
+        //map.openPopup(html, e.latlng);
+        //}
         
       }
     })
     return null;
   }
 
-
+  //{avgWind && avgSolar && <InfoPopup avgWind = {avgWind} avgSolar = {avgSolar} popupText = {popupText} map={map} lat={lat} lng={lng} />}
   return (
     <>
       <MapContainer
@@ -135,6 +153,16 @@ function Map() {
       >
         <MyComponent/>
         <Layers />
+        {/* Adds popup and adds relevant content to it based on which features are on the click location */}
+        {latlng && <Popup position = {latlng}>
+          <PopupLatLng  popupText={popupText} lat={lat} lng={lng}/>
+          <PopupWindSolar avgWind={avgWind} avgSolar={avgSolar} />
+          {settlement && <PopupSettlement settlement={settlement}/>}
+          {district && <PopupDistrict district={district}/>}
+          {township && <PopupTownship township={township}/>}
+          {river && <PopupRiver river={river}/>}
+          {grid && <PopupGrid grid={grid}/>}
+        </Popup>}
         <Legend map={map}/>
       </MapContainer>
       {/* using solar data to check if map has been clicked. when map is clicked the infotabs component is rendered */}

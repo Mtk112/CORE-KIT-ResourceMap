@@ -9,6 +9,7 @@
     "axios": "^0.21.4",
     "bootstrap": "^4.6.0",
     "chroma-js": "^2.1.2",
+    "geoblaze": "^1.0.0",
     "georaster": "^1.5.5",
     "georaster-layer-for-leaflet": "^3.4.0",
     "geotiff.js": "^1.0.1",

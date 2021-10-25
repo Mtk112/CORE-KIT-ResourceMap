@@ -29,7 +29,7 @@ const SolarLayer = ({ url }) => {
                   if (pixelValue < 0) return null;
   
                   // scale to 0 - 1 used by chroma, Solar raster contains negative values, which forces the scaling to be done by hand.
-                  var scaledPixelValue = (pixelValue - 2) / 2.5;
+                  var scaledPixelValue = (pixelValue - 2.5) / 2.8;
                   //console.log(scaledPixelValue);
                   if(scaledPixelValue > 1 || scaledPixelValue < 0) return null;
                   var color = scale(scaledPixelValue).hex();
@@ -37,7 +37,7 @@ const SolarLayer = ({ url }) => {
                   return color;
                 },
                 resolution : 128,
-                opacity: 0.5
+                opacity: 0.7
               }
             //console.log("georaster:", georaster);
             options.georaster = georaster;
