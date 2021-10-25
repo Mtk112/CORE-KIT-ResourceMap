@@ -4,7 +4,7 @@ html, body {
   padding: 0px;
   width: 100vw;
   height: 100vh;
-  background: black;
+  background: rgb(245, 237, 237);
 }
 
 #root {

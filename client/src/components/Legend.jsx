@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import L from "leaflet";
 
 function Legend({ map }) {
-  console.log(map);
   useEffect(() => {
     if (map) {
       const legend = L.control({ position: "bottomleft" });

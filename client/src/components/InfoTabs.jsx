@@ -6,7 +6,7 @@ import Wind from './Wind';
 import Settlement from './Settlement';
 import River from './River';
 
-function InfoTabs({solarData, monthData, settlementData, riverData, windData}) {
+function InfoTabs({solarData, settlementData, riverData, windData}) {
 
     return (
         <div>
