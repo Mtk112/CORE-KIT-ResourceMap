@@ -9,7 +9,7 @@ function River( {riverData} ){
     }
     else {
         return(
-            <p id="center">Hey you found a river. Unfortunately no data available yet... River id: {riverData.id} </p>
+            <p id="center"> River id: {riverData.riverid} </p>
         );
     }
 

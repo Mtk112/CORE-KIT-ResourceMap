@@ -85,11 +85,13 @@ function Map() {
             for (var f in overlay._layers) {
               var feature = overlay._layers[f];
               var bounds;
-              //checks if feature has bounds. incase it doesn't creates bounds.
+              //gets bounds of the feature. 
               if (feature.getBounds) bounds = feature.getBounds();
-              else if (feature._latlng) {
+              // create bounds for boundless features
+              /*else if (feature._latlng) {
+                console.log("I needed bounds!");
                 bounds = L.latLngBounds(feature._latlng, feature._latlng);
-              }
+              }*/
               //if feature and clicked area overlaps the feature gets added to the array.
               //** For some reason each overlaping feature gets added twice **
               if (bounds && clickBounds.overlaps(bounds)) {
@@ -121,7 +123,8 @@ function Map() {
                 setGrid(obj.feature.properties);
               }
               else{
-                console.log('Unknown feature...: ' +obj);
+                console.log('Unknown feature');
+                console.log(obj);
               }
               return null;
             })
