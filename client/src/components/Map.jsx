@@ -75,7 +75,7 @@ function Map() {
         }
         //creates bounds for area clicked. 
         var clickBounds = L.latLngBounds(e.latlng, e.latlng);
-        var overlapingFeatures = [];
+        var overlappingFeatures = [];
         //Goes through every layer active.
         for (var l in map._layers) {
           var overlay = map._layers[l];
@@ -93,17 +93,17 @@ function Map() {
                 bounds = L.latLngBounds(feature._latlng, feature._latlng);
               }*/
               //if feature and clicked area overlaps the feature gets added to the array.
-              //** For some reason each overlaping feature gets added twice **
+              //** For some reason each overlapping feature gets added twice **
               if (bounds && clickBounds.overlaps(bounds)) {
-                overlapingFeatures.push(feature);
+                overlappingFeatures.push(feature);
               }
             }
           }
         }
         //checks that at least one feature was found
-        if (overlapingFeatures.length) {
+        if (overlappingFeatures.length) {
           //console.log(overlapingFeatures);
-            overlapingFeatures.map(function(obj) {
+            overlappingFeatures.map(function(obj) {
             /*  Checks which layer the feature belongs to and saves the properties of the feature. 
                 obj doesnt have layer data so layer is identified by unique property.              
             */

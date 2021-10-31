@@ -15,7 +15,7 @@ function PopupWindSolar({avgWind, avgSolar}){
   return(
     <>
           <h4>Solar & Wind</h4>
-          <p id="line">Average Yearly Solar Potential (kWh / kWp) {avgSolar} <br/> Yearly Wind Speed (m/s): {avgWind}</p>
+          <p id="line">Average Yearly Solar Potential (kWh / kWp) {avgSolar} <br/> Average Yearly Wind Speed at 50 m (m/s): {avgWind}</p>
     </>
   );
 }
