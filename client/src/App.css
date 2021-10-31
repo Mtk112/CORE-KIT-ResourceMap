@@ -54,8 +54,17 @@ h4{
   padding-bottom: 0px;
 }
 
-#settlement{
-  color: purple;
+#settlement0to99{
+  color: #fcbba1;
+}
+#settlement100to999{
+  color: #fb6a4a;
+}
+#settlement1000to9999{
+  color: #de2d26;
+}
+#settlement10k{
+  color: #a50f15;
 }
 
 #city{

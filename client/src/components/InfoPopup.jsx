@@ -26,6 +26,7 @@ function PopupSettlement({settlement}){
     <>
           <h4>Settlement</h4>
           <p id="line">Settlement: {settlement.name}</p>
+          <p id="line">Population: {settlement.population} </p>
     </>
   );
 }

@@ -7,6 +7,7 @@ const pool = new Pool({
     port: 5432,
 });
 
+// Gets all settlements
 const getSettlements = (request, response) => {
     pool.query(" SELECT 'FeatureCollection' As type, array_to_json(array_agg(f)) As features FROM (SELECT 'Feature' As type, ST_AsGeoJSON(geom)::json As geometry, row_to_json((SELECT l FROM (SELECT gid, name, village_hh, population, district, township) As l )) As properties FROM public.settlements As lg ) As f", (error, results) => {
        if (error) {
@@ -16,6 +17,7 @@ const getSettlements = (request, response) => {
     });
 };
 
+// Gets data from a specific settlement
 const getSettlement = (request, response) => {
     const gid = parseInt(request.params.id);
     pool.query('SELECT name, village_hh, population, district, township FROM public.settlements WHERE gid = $1', [gid], (error, results) =>{
@@ -112,6 +114,8 @@ const getSolarAtPoint = (request, response) => {
 
 module.exports = {
     getSettlements,
+    //getSettlementsPop100,
+    //getSettlementsPop1000,
     getSettlement,
     getRivers,
     getTownships,

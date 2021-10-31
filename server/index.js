@@ -19,6 +19,8 @@ app.get('/', (request, response) => {
 });
 
 app.get('/settlements', db.getSettlements);
+//app.get('/settlementsPop100', db.getSettlementsPop100);
+//app.get('/settlementsPop1000', db.getSettlementsPop1000);
 app.get('/rivers', db.getRivers);
 app.get('/townships', db.getTownships);
 app.get('/grid', db.getGrid);
