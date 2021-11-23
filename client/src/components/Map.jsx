@@ -53,6 +53,20 @@ function Map() {
       }, 0);
       setAvgWind((sum / 12).toFixed(2));
     };
+    //Gets district based on where map was clicked
+    async function getDistrictAtPoint(lat, lng){
+      const res = await axios.get('http://localhost:5000/districtAtPoint/'+lat+'/'+lng);
+      const { data } = await res;
+      setDistrict(data[0]);
+      //console.log(data[0]);
+    };
+    //Gets township based on where map was clicked
+    async function getTownshipAtPoint(lat, lng){
+      const res = await axios.get('http://localhost:5000/townshipAtPoint/'+lat+'/'+lng);
+      const { data } = await res;
+      setTownship(data[0]);
+      //console.log(data[0]);
+    };
 
     const map = useMapEvents({
       click: (e) => {
@@ -113,11 +127,12 @@ function Map() {
               else if(obj.feature.properties.riverid){
                 setRiver(obj.feature.properties);
               }
-              else if(obj.feature.properties.name_2){
-                setDistrict(obj.feature.properties);
+              //else if(obj.feature.properties.varname_2){
+              else if(obj.feature.properties.dt){
+                getDistrictAtPoint(e.latlng.lat, e.latlng.lng);
               }
-              else if(obj.feature.properties.name_3){
-                setTownship(obj.feature.properties);
+              else if(obj.feature.properties.ts){
+                getTownshipAtPoint(e.latlng.lat, e.latlng.lng);
               }
               else if(obj.feature.properties.ex_from){
                 setGrid(obj.feature.properties);

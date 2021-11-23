@@ -42,7 +42,7 @@ const getRivers = (request, response) => {
 
 
 const getTownships = (request, response) => {
-    pool.query("SELECT 'FeatureCollection' As type, array_to_json(array_agg(f)) As features FROM (SELECT 'Feature' As type, ST_AsGeoJSON(geom)::json As geometry, row_to_json((SELECT l FROM (SELECT gid, name_3) As l )) As properties FROM public.townships As lg ) As f", (error, results) => {
+    pool.query("SELECT 'FeatureCollection' As type, array_to_json(array_agg(f)) As features FROM (SELECT 'Feature' As type, ST_AsGeoJSON(geom)::json As geometry, row_to_json((SELECT l FROM (SELECT gid, ts, ts_mmr4) As l )) As properties FROM public.townships_shan_south As lg ) As f", (error, results) => {
     //pool.query("SELECT row_to_json(fc) AS geojson FROM (SELECT 'FeatureCollection' As type, array_to_json(array_agg(f)) AS features FROM (SELECT 'Feature' As type, ST_AsGeoJSON(ST_Transform(lg.geometry, 4326),15,0)::json As geometry, row_to_json((*)) As properties FROM public.townships As lg) As f) As fc", (error, results) =>{
         if(error){
             throw error;
@@ -50,6 +50,19 @@ const getTownships = (request, response) => {
         response.status(200).json(results.rows);
     });
 };
+
+const getTownshipAtPoint = (request, response) => {
+    const lat = parseFloat(request.params.lat);
+    const lng = parseFloat(request.params.lng);
+    // Gets the district based on latitude / longitude.
+    pool.query("SELECT * FROM public.townships_shan_south WHERE ST_Within(ST_SetSRID(ST_Point( $1 , $2 ), 0), geom::geometry);", [lat,lng], (error, results) => {
+        if(error){
+            throw error;
+        };
+        response.status(200).json(results.rows);
+    });
+};
+
 
 const getGrid = (request, response) => {
     pool.query("SELECT 'FeatureCollection' As type, array_to_json(array_agg(f)) As features FROM (SELECT 'Feature' As type, ST_AsGeoJSON(geom)::json As geometry, row_to_json((SELECT l FROM (SELECT gid, ex_from, ex_to) As l )) As properties FROM public.medium_voltage_grid As lg ) As f", (error, results) => {
@@ -61,7 +74,19 @@ const getGrid = (request, response) => {
 };
 
 const getDistricts = (request, response) => {
-    pool.query("SELECT 'FeatureCollection' As type, array_to_json(array_agg(f)) As features FROM (SELECT 'Feature' As type, ST_AsGeoJSON(geom)::json As geometry, row_to_json((SELECT l FROM (SELECT gid, name_2, varname_2) As l )) As properties FROM public.districts As lg ) As f", (error, results) => {
+    //pool.query("SELECT 'FeatureCollection' As type, array_to_json(array_agg(f)) As features FROM (SELECT 'Feature' As type, ST_AsGeoJSON(geom)::json As geometry, row_to_json((SELECT l FROM (SELECT gid, name_2, varname_2) As l )) As properties FROM public.districts As lg ) As f", (error, results) => {
+    pool.query("SELECT 'FeatureCollection' As type, array_to_json(array_agg(f)) As features FROM (SELECT 'Feature' As type, ST_AsGeoJSON(geom)::json As geometry, row_to_json((SELECT l FROM (SELECT gid, dt, dt_mmr4 ) As l )) As properties FROM public.districts_shan_south As lg ) As f", (error, results) => {
+        if(error){
+            throw error;
+        };
+        response.status(200).json(results.rows);
+    });
+};
+const getDistrictAtPoint = (request, response) => {
+    const lat = parseFloat(request.params.lat);
+    const lng = parseFloat(request.params.lng);
+    // Gets the district based on latitude / longitude.
+    pool.query("SELECT * FROM public.districts_shan_south WHERE ST_Within(ST_SetSRID(ST_Point( $1 , $2 ), 0), geom::geometry);", [lat,lng], (error, results) => {
         if(error){
             throw error;
         };
@@ -119,8 +144,10 @@ module.exports = {
     getSettlement,
     getRivers,
     getTownships,
+    getTownshipAtPoint,
     getGrid,
     getDistricts,
+    getDistrictAtPoint,
     getCityTown,
     getWindAtPoint,
     getSolarAtPoint

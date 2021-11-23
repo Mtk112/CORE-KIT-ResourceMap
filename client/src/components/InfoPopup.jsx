@@ -47,7 +47,7 @@ function PopupDistrict({district}){
   return(
     <>
       <h4>District</h4>
-      <p id="line">District: {district.name_2}</p>
+      <p id="line">District: {district.dt} / {district.dt_mmr4}</p>     
     </>
   )
 }
@@ -57,7 +57,7 @@ function PopupTownship({township}){
   return(
     <>
       <h4>Township</h4>
-      <p id="line">Township: {township.name_3}</p>
+      <p id="line">Township: {township.ts} / {township.ts_mmr4}</p>
     </>
   )
 }
