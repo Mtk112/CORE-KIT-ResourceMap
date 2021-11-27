@@ -29,21 +29,18 @@ class SettlementsOverlay  extends Component {
         }
     }
 
-    onEachFeature(feature, layer) {
+    /*onEachFeature(feature, layer) {
         layer.on({
-        'click': function (e) {
-            //this.setState({lastSettlement: e.target});
-            //console.log('Name: ', e.target.feature.properties.name + ', population: ', e.target.feature.properties.population + ', number of households: ', e.target.feature.properties.village_hh + ', settlement ID: ', e.target.feature.properties.gid );  
+        'click': function (e) {  
         }
         })
-    }
+    }*/
     // Gets all settlements
     async getSettlements(){
         const res = await axios.get('http://localhost:5000/settlements');
-        const { data } = await res;
+        const { data } = res;
         let reference = React.createRef();
-        this.setState({settlements: data[0], settlementRef: reference});
-        //console.log(this.state.settlements);
+        this.setState({settlements: data, settlementRef: reference});
     }
 
     componentDidMount() {
@@ -54,7 +51,7 @@ class SettlementsOverlay  extends Component {
         return(
             this.state.settlements &&(
                 <>
-                    <GeoJSON data={this.state.settlements} ref={this.settlementRef} onEachFeature={this.onEachFeature.bind(this)} pointToLayer={this.pointToLayer.bind(this)} />
+                    <GeoJSON data={this.state.settlements} ref={this.settlementRef} pointToLayer={this.pointToLayer.bind(this)} />
                 </>
             )
         )

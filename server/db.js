@@ -9,11 +9,14 @@ const pool = new Pool({
 
 // Gets all settlements
 const getSettlements = (request, response) => {
-    pool.query(" SELECT 'FeatureCollection' As type, array_to_json(array_agg(f)) As features FROM (SELECT 'Feature' As type, ST_AsGeoJSON(geom)::json As geometry, row_to_json((SELECT l FROM (SELECT gid, name, village_hh, population, district, township) As l )) As properties FROM public.settlements As lg ) As f", (error, results) => {
+    //pool.query(" SELECT 'FeatureCollection' As type, array_to_json(array_agg(f)) As features FROM (SELECT 'Feature' As type, ST_AsGeoJSON(geom)::json As geometry, row_to_json((SELECT l FROM (SELECT gid, name, village_hh, population, district, township) As l )) As properties FROM public.settlements As lg ) As f", (error, results) => {
+    //pool.query(" SELECT array_to_json(array_agg(f)) As features FROM (SELECT 'Feature' As type, ST_AsGeoJSON(geom)::json As geometry, row_to_json((SELECT l FROM (SELECT gid, name, village_hh, population, district, township) As l )) As properties FROM public.settlements As lg ) As f", (error, results) => {
+    pool.query("SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(feature)) FROM (SELECT jsonb_build_object('type', 'Feature','gid', gid,'geometry', ST_AsGeoJSON(geom)::jsonb, 'properties', to_jsonb(inputs) - 'gid' - 'geom') AS feature FROM (SELECT * FROM public.settlements) inputs) features;", (error, results) => {
        if (error) {
             throw error;
         }
-        response.status(200).json(results.rows);
+        const [{ jsonb_build_object : data}] = results.rows;
+        response.status(200).json(data);
     });
 };
 

@@ -101,13 +101,7 @@ function Map() {
               var bounds;
               //gets bounds of the feature. 
               if (feature.getBounds) bounds = feature.getBounds();
-              // create bounds for boundless features
-              /*else if (feature._latlng) {
-                console.log("I needed bounds!");
-                bounds = L.latLngBounds(feature._latlng, feature._latlng);
-              }*/
               //if feature and clicked area overlaps the feature gets added to the array.
-              //** For some reason each overlapping feature gets added twice **
               if (bounds && clickBounds.overlaps(bounds)) {
                 overlappingFeatures.push(feature);
               }
@@ -116,7 +110,6 @@ function Map() {
         }
         //checks that at least one feature was found
         if (overlappingFeatures.length) {
-          //console.log(overlapingFeatures);
             overlappingFeatures.map(function(obj) {
             /*  Checks which layer the feature belongs to and saves the properties of the feature. 
                 obj doesnt have layer data so layer is identified by unique property.              
@@ -127,7 +120,6 @@ function Map() {
               else if(obj.feature.properties.riverid){
                 setRiver(obj.feature.properties);
               }
-              //else if(obj.feature.properties.varname_2){
               else if(obj.feature.properties.dt){
                 getDistrictAtPoint(e.latlng.lat, e.latlng.lng);
               }
@@ -145,21 +137,11 @@ function Map() {
             })
             
        }
-        //Pans map to the location clicked ** ISSUE: Map height seem to still be 100vh, but container is set to 50vh? causes the setView to be at the very bottom of the resized map.
-        //map.setView([e.latlng.lat, e.latlng.lng]);
-       //if(wind && solar){
-        //var avgWind = ((wind[0] + wind[1] + wind[2] + wind[3] + wind[4] + wind[5] + wind[6] + wind[7] + wind[8] + wind[9] + wind[10] + wind[11]) / 12).toFixed(2);
-        //var avgSolar = ((solar[0] + solar[1] + solar[2] + solar[3] + solar[4] + solar[5] + solar[6] + solar[7] + solar[8] + solar[9] + solar[10] + solar[11]) / 12).toFixed(2);
-        setPopupText ( settlementHtml + riverHtml + districtHtml + townshipHtml + gridHtml);
-        //map.openPopup(html, e.latlng);
-        //}
-        
+        setPopupText ( settlementHtml + riverHtml + districtHtml + townshipHtml + gridHtml);    
       }
     })
     return null;
   }
-
-  //{avgWind && avgSolar && <InfoPopup avgWind = {avgWind} avgSolar = {avgSolar} popupText = {popupText} map={map} lat={lat} lng={lng} />}
   return (
     <>
       <MapContainer

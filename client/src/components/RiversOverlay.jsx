@@ -12,13 +12,6 @@ class RiversOverlay extends Component {
         }  
     }
 
-    onEachFeature(feature, layer) {
-        layer.on({
-          'click': function (e) {
-            console.log('RiverID: ', e.target.feature.properties.riverid );  
-           }
-        })
-    }
     //gets the river data from PostgreSQL.
     async getRivers(){
         const res = await axios.get('http://localhost:5000/rivers');
@@ -38,7 +31,7 @@ class RiversOverlay extends Component {
         };
         return(
             this.state.rivers && (
-                <GeoJSON data={this.state.rivers} ref={this.riversRef} onEachFeature={this.onEachFeature.bind(this)} style={style} />
+                <GeoJSON data={this.state.rivers} ref={this.riversRef} style={style} />
             )
         );
     };
