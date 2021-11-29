@@ -130,9 +130,9 @@ const getSolarAtPoint = (request, response) => {
     });
 };
 
-/*const getSolarBand1 = (request, response) => {
+/*const getWindRaster = (request, response) => {
     //pool.query("SELECT ST_AsPNG(rast, 1) As rastpng FROM public.solar_potential", (error, results) =>{
-        pool.query("SELECT ST_AsGDALRaster(rast,'GTiff', ARRAY['COMPRESS=JPEG', 'JPEG_QUALITY=90'], 4269) As rasttiff FROM public.solar_potential WHERE rid=1", (error, results) =>{
+        pool.query("SELECT ST_AsGDALRaster(rast, 'GTiff', ARRAY['COMPRESS=LZW']) as tiff FROM public.wind_potential WHERE rid = 1", (error, results) =>{
         if(error){
             throw error;
         };
@@ -154,5 +154,5 @@ module.exports = {
     getCityTown,
     getWindAtPoint,
     getSolarAtPoint
-    //getSolarBand1
+    //getWindRaster
 };

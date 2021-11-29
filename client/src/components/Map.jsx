@@ -22,7 +22,6 @@ function Map() {
   const [township, setTownship] = useState('');
   const [river, setRiver] = useState('');
   const [grid, setGrid] = useState('');
-  const [popupText, setPopupText] = useState('');
   const [lat, setLat] = useState('');
   const [lng, setLng] = useState('');
   const [latlng, setLatLng] = useState('');
@@ -32,7 +31,8 @@ function Map() {
   // Sets month based on which month is selected from dropdown, this will be used for solar and wind raster overlays... if i can block map.click happening under the dropdown.
 
   // Adds a component for map clicks (for some reason the first click does not set position).
-  function MyComponent() {
+  function MapClick() {
+    /* Data requests */
     // Gets solar_potential values from map click location.
     async function getSolarAtPoint(lat, lng){
       const res = await axios.get('http://localhost:5000/solarAtPoint/'+lat+'/'+lng);
@@ -67,26 +67,21 @@ function Map() {
       setTownship(data[0]);
       //console.log(data[0]);
     };
-
+    /* Map interaction */
     const map = useMapEvents({
       click: (e) => {
-        //gets solar & wind data from raster in database based on position
+        //Reset states so that information from previous click is not shown.
         setSettlement('');
         setRiver('');
         setDistrict('');
         setTownship('');
         setRiver('');
         setGrid('');
-        setLat(e.latlng.lat);
-        setLng(e.latlng.lng);
         setLatLng(e.latlng);
         getSolarAtPoint(e.latlng.lat, e.latlng.lng);
         getWindAtPoint(e.latlng.lat, e.latlng.lng);
-        var riverHtml = "", settlementHtml = "", districtHtml = "", townshipHtml = "", gridHtml = "";
+        map.setView(e.latlng);
 
-        if(map.drawingPoints){
-
-        }
         //creates bounds for area clicked. 
         var clickBounds = L.latLngBounds(e.latlng, e.latlng);
         var overlappingFeatures = [];
@@ -136,8 +131,7 @@ function Map() {
               return null;
             })
             
-       }
-        setPopupText ( settlementHtml + riverHtml + districtHtml + townshipHtml + gridHtml);    
+       }   
       }
     })
     return null;
@@ -151,11 +145,11 @@ function Map() {
         preferCanvas={true}
         whenCreated={setMap}
       >
-        <MyComponent/>
+        <MapClick/>
         <Layers />
-        {/* Adds popup and adds relevant content to it based on which features are on the click location */}
+        {/* Renders popup and adds relevant content to it based on which features are on the click location */}
         {latlng && <Popup position = {latlng}>
-          <PopupLatLng  popupText={popupText} lat={lat} lng={lng}/>
+          <PopupLatLng lat={lat} lng={lng}/>
           <PopupWindSolar avgWind={avgWind} avgSolar={avgSolar} />
           {settlement && <PopupSettlement settlement={settlement}/>}
           {district && <PopupDistrict district={district}/>}

@@ -12,7 +12,7 @@ class RiversOverlay extends Component {
         }  
     }
 
-    //gets the river data from PostgreSQL.
+    //gets the river data from PostgreSQL/PostGIS.
     async getRivers(){
         const res = await axios.get('http://localhost:5000/rivers');
         const { data } = await res;

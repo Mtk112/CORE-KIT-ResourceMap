@@ -25,16 +25,13 @@ const WindLayer = ({ url }) => {
           var scale = chroma.scale("Viridis");
             const options = {
               pixelValuesToColorFn: function(pixelValues) {
-                var pixelValue = (pixelValues[0] + pixelValues[1] + pixelValues[2] + pixelValues[3] + pixelValues[4] + pixelValues[5] + pixelValues[6] + pixelValues[7] + pixelValues[8] + pixelValues[9] + pixelValues[10] + pixelValues[11]) / 12; // getting average wind speed / solar potential over 12 months
-
+                var pixelValue = pixelValues.reduce((a, b) => a + b) / pixelValues.length; 
                 // if there's zero wind, don't return a color
-                if (pixelValue === 0) return null;
+                if (pixelValue <= 0) return null;
 
                 // scale to 0 - 1 used by chroma
                 var scaledPixelValue = (pixelValue - min) / range;
-
                 var color = scale(scaledPixelValue).hex();
-
                 return color;
               },
               resolution : 128,

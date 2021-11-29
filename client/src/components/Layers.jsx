@@ -61,26 +61,26 @@ function Layers() {
                 </LayersControl.BaseLayer>
 
                 <LayersControl.Overlay checked name="Settlements">
-                    <SettlementsOverlay />
+                    <SettlementsOverlay/>
                 </LayersControl.Overlay>
             
                 <LayersControl.Overlay name="Rivers">
-                    <RiversOverlay />    
+                    <RiversOverlay/>    
                 </LayersControl.Overlay>
 
                 <LayersControl.Overlay name="Townships">
-                    <TownshipsOverlay />    
+                    <TownshipsOverlay/>    
                 </LayersControl.Overlay>
 
                 <LayersControl.Overlay name="Medium Voltage Grid">
-                    <MediumVoltageGrid />    
+                    <MediumVoltageGrid/>    
                 </LayersControl.Overlay>
 
                 <LayersControl.Overlay name="Districts">
-                    <DistrictsOverlay />    
+                    <DistrictsOverlay/>    
                 </LayersControl.Overlay>
                 <LayersControl.Overlay name="City / Town">
-                    <CityTownOverlay />    
+                    <CityTownOverlay/>    
                 </LayersControl.Overlay>
                 <LayersControl.Overlay name="Solar Potential Average Over 12 Months" >
                     <SolarLayer url={"https://raw.githubusercontent.com/Mtk112/CORE-KIT/master/inst/extdata/solar_potential_kwhperkwp.tif"}/>
