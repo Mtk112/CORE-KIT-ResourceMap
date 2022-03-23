@@ -1,12 +1,5 @@
 require('dotenv').config({path: '../.env'});
 const Pool = require('pg').Pool;
-/*const pool = new Pool({
-    user: 'postgres',
-    host: 'localhost',
-    database : 'corekit',
-    password: 'admin',
-    port: 5432,
-});*/
 const pool = new Pool({
     user: process.env.DATABASE_USER,
     host: process.env.DATABASE_HOST,
@@ -39,6 +32,17 @@ const getSettlement = (request, response) => {
     });
 }
 
+const getNearestSettlement = (request, response) => {
+    const lat = parseFloat(request.params.lat);
+    const lng = parseFloat(request.params.lng);
+    pool.query("SELECT *, ST_Transform(public.settlements.geom, 26918), public.settlements.geom <-> ST_SetSRID(ST_Point($1, $2), 26918)::geometry AS dist FROM public.settlements ORDER BY dist LIMIT 1", [lat,lng], (error, results) => {
+        if(error){
+            throw error;
+        };
+        response.status(200).json(results.rows);
+    });
+}
+
 
 const getRivers = (request, response) => {
     pool.query("SELECT 'FeatureCollection' As type, array_to_json(array_agg(f)) As features FROM (SELECT 'Feature' As type, ST_AsGeoJSON(geom)::json As geometry, row_to_json((SELECT l FROM (SELECT riverid) As l )) As properties FROM public.rivers As lg ) As f", (error, results) => {
@@ -51,11 +55,17 @@ const getRivers = (request, response) => {
     });
 };
 
-
-/*  Possible solution for polyline problem, find nearest river based on map click location
-    SELECT *, ST_Transform(public.rivers.geom, 4326), public.rivers.geom <-> 'SRID=26918;POINT( 20.7888 97.03 )'::geometry AS dist FROM public.rivers ORDER BY dist LIMIT 1;
-
-*/
+//Finds the nearest river segment
+const getNearestRiver = (request, response) => {
+    const lat = parseFloat(request.params.lat);
+    const lng = parseFloat(request.params.lng);
+    pool.query("SELECT *, ST_Transform(public.rivers.geom, 26918), public.rivers.geom <-> ST_SetSRID(ST_Point($1, $2), 26918)::geometry AS dist FROM public.rivers ORDER BY dist LIMIT 1", [lat,lng], (error, results) => {
+        if(error){
+            throw error;
+        };
+        response.status(200).json(results.rows);
+    });
+}
 
 const getTownships = (request, response) => {
     pool.query("SELECT 'FeatureCollection' As type, array_to_json(array_agg(f)) As features FROM (SELECT 'Feature' As type, ST_AsGeoJSON(geom)::json As geometry, row_to_json((SELECT l FROM (SELECT gid, ts, ts_mmr4) As l )) As properties FROM public.townships_shan_south As lg ) As f", (error, results) => {
@@ -71,7 +81,7 @@ const getTownshipAtPoint = (request, response) => {
     const lat = parseFloat(request.params.lat);
     const lng = parseFloat(request.params.lng);
     // Gets the district based on latitude / longitude.
-    pool.query("SELECT * FROM public.townships_shan_south WHERE ST_Within(ST_SetSRID(ST_Point($1 , $2), 0), geom::geometry);", [lat,lng], (error, results) => {
+    pool.query("SELECT * FROM public.townships_shan_south WHERE ST_Within(ST_SetSRID(ST_Point($1, $2), 0), geom::geometry);", [lat,lng], (error, results) => {
         if(error){
             throw error;
         };
@@ -88,6 +98,18 @@ const getGrid = (request, response) => {
         response.status(200).json(results.rows);
     });
 };
+
+//Finds the nearest medium voltage grid segment
+const getNearestGrid = (request, response) => {
+    const lat = parseFloat(request.params.lat);
+    const lng = parseFloat(request.params.lng);
+    pool.query("SELECT *, ST_Transform(public.medium_voltage_grid.geom, 26918), public.medium_voltage_grid.geom <-> ST_SetSRID(ST_Point($1, $2), 26918)::geometry AS distance FROM public.medium_voltage_grid ORDER BY distance LIMIT 1", [lat,lng], (error, results) => {
+        if(error){
+            throw error;
+        };
+        response.status(200).json(results.rows);
+    });
+}
 
 const getDistricts = (request, response) => {
     //pool.query("SELECT 'FeatureCollection' As type, array_to_json(array_agg(f)) As features FROM (SELECT 'Feature' As type, ST_AsGeoJSON(geom)::json As geometry, row_to_json((SELECT l FROM (SELECT gid, name_2, varname_2) As l )) As properties FROM public.districts As lg ) As f", (error, results) => {
@@ -166,6 +188,9 @@ module.exports = {
     getDistrictAtPoint,
     getCityTown,
     getWindAtPoint,
-    getSolarAtPoint
+    getSolarAtPoint,
     //getWindRaster
+    getNearestRiver,
+    getNearestSettlement,
+    getNearestGrid
 };

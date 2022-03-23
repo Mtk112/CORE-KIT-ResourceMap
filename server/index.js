@@ -31,6 +31,9 @@ app.get('/city_town', db.getCityTown);
 app.get('/settlement/:id', db.getSettlement);
 app.get('/windAtPoint/:lng/:lat', db.getWindAtPoint);
 app.get('/solarAtPoint/:lng/:lat', db.getSolarAtPoint);
+app.get('/nearestRiver/:lng/:lat', db.getNearestRiver);
+app.get('/nearestSettlement/:lng/:lat', db.getNearestSettlement);
+app.get('/nearestGrid/:lng/:lat', db.getNearestGrid);
 //app.get('/windRaster', db.getWindRaster);
 app.listen(port, () => {
     console.log(`App running on port ${port}.`);

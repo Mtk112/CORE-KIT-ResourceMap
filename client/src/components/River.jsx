@@ -8,6 +8,7 @@ function River( {riverData} ){
         );
     }
     else {
+        console.log(riverData);
         return(
             <p id="center"> River id: {riverData.riverid} </p>
         );

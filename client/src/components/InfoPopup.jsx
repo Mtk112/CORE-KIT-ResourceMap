@@ -29,9 +29,10 @@ export {PopupWindSolar}
 function PopupSettlement({settlement}){
   return(
     <>
-          <h4>Settlement</h4>
+          <h4>Nearest Settlement</h4>
           <p id="line">Settlement: {settlement.name}</p>
           <p id="line">Population: {settlement.population} </p>
+          <p id="line">Distance: {settlement.dist} </p>
     </>
   );
 }
@@ -41,8 +42,9 @@ export {PopupSettlement}
 function PopupRiver({river}){
   return(
   <>
-      <h4>River</h4>
+      <h4>Nearest River</h4>
       <p id="line">River ID: {river.riverid}</p>
+      <p id="line">Distance: {river.dist}</p>
   </>
   );
 }
@@ -71,8 +73,9 @@ export {PopupTownship}
 function PopupGrid({grid}){
   return(
     <>
-      <h4>Medium Voltage Grid</h4>
+      <h4>Nearest Medium Voltage Grid</h4>
       <p id="line">Medium voltage grid id:  {grid.gid}</p>
+      <p id="line">Distance: {grid.distance}</p>
     </>
   )
 }

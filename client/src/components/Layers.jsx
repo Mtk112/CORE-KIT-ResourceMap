@@ -33,6 +33,7 @@ function Layers() {
                         id='mapbox/streets-v11'
                         //access token for the tiles.
                         accessToken='Your-AccessToken-Here'
+                        
                     />
                 </LayersControl.BaseLayer>
 
@@ -49,6 +50,7 @@ function Layers() {
                         url='https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}'
                         id='mapbox/satellite-v9'
                         accessToken='Your-AccessToken-Here'
+                        
                     />
                 </LayersControl.BaseLayer>
                 <LayersControl.BaseLayer name="Satellite-Streets">
@@ -57,6 +59,7 @@ function Layers() {
                         url='https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}'
                         id='mapbox/satellite-streets-v11'
                         accessToken='Your-AccessToken-Here'
+
                     />
                 </LayersControl.BaseLayer>
 

@@ -65,6 +65,24 @@ function Map() {
       const { data } = await res;
       setTownship(data[0]);
     };
+    //Gets nearest river based on where map was clicked
+    async function getNearestRiver(lat, lng){
+      const res = await axios.get('http://localhost:5000/nearestRiver/'+lat+'/'+lng);
+      const { data } = await res;
+      setRiver(data[0]);
+    }
+    //Gets nearest settlement based on where map was clicked
+    async function getNearestSettlement(lat, lng){
+      const res = await axios.get('http://localhost:5000/nearestSettlement/'+lat+'/'+lng);
+      const { data } = await res;
+      setSettlement(data[0]);
+    }
+    //Gets nearest settlement based on where map was clicked
+    async function getNearestGrid(lat, lng){
+      const res = await axios.get('http://localhost:5000/nearestGrid/'+lat+'/'+lng);
+      const { data } = await res;
+      setGrid(data[0]);
+    }
     /* Map interaction */
     const map = useMapEvents({
       click: (e) => {
@@ -82,6 +100,11 @@ function Map() {
         setLatLng(e.latlng);
         getSolarAtPoint(e.latlng.lat, e.latlng.lng);
         getWindAtPoint(e.latlng.lat, e.latlng.lng);
+        getNearestRiver(e.latlng.lat, e.latlng.lng);
+        getNearestSettlement(e.latlng.lat, e.latlng.lng);
+        getNearestGrid(e.latlng.lat, e.latlng.lng);
+        getDistrictAtPoint(e.latlng.lat, e.latlng.lng);
+        getTownshipAtPoint(e.latlng.lat, e.latlng.lng);
         map.setView(e.latlng);
 
         //creates bounds for area clicked. 
@@ -111,25 +134,21 @@ function Map() {
             /*  Checks which layer the feature belongs to and saves the properties of the feature. 
                 obj doesnt have layer data so layer is identified by unique property.              
             */
-              if(obj.feature.properties.name){
+              /*if(obj.feature.properties.name){
                 setSettlement(obj.feature.properties);
               }
               else if(obj.feature.properties.riverid){
                 setRiver(obj.feature.properties);
               }
-              else if(obj.feature.properties.dt){
+              if(obj.feature.properties.dt){
                 getDistrictAtPoint(e.latlng.lat, e.latlng.lng);
               }
               else if(obj.feature.properties.ts){
                 getTownshipAtPoint(e.latlng.lat, e.latlng.lng);
               }
-              else if(obj.feature.properties.ex_from){
+              if(obj.feature.properties.ex_from){
                 setGrid(obj.feature.properties);
-              }
-              else{
-                console.log('Unknown feature');
-                console.log(obj);
-              }
+              }*/
               return null;
             })
             
