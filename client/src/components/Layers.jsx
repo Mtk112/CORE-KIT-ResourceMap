@@ -32,7 +32,7 @@ function Layers() {
                         //id of the tiles to load (only needed for the mapbox tiles).
                         id='mapbox/streets-v11'
                         //access token for the tiles.
-                        accessToken='pk.eyJ1IjoibWthbGxpbzIiLCJhIjoiY2pyN3Fha2hyMDBxNzN4cW5sYm12MWkwbyJ9.q1pVLHFRx0Cav6vmyACAYw'
+                        accessToken='Your-AccessToken-Here'
                     />
                 </LayersControl.BaseLayer>
 
@@ -48,7 +48,7 @@ function Layers() {
                         attribution='Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>'
                         url='https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}'
                         id='mapbox/satellite-v9'
-                        accessToken='pk.eyJ1IjoibWthbGxpbzIiLCJhIjoiY2pyN3Fha2hyMDBxNzN4cW5sYm12MWkwbyJ9.q1pVLHFRx0Cav6vmyACAYw'
+                        accessToken='Your-AccessToken-Here'
                     />
                 </LayersControl.BaseLayer>
                 <LayersControl.BaseLayer name="Satellite-Streets">
@@ -56,26 +56,22 @@ function Layers() {
                         attribution='Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>'
                         url='https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}'
                         id='mapbox/satellite-streets-v11'
-                        accessToken='pk.eyJ1IjoibWthbGxpbzIiLCJhIjoiY2pyN3Fha2hyMDBxNzN4cW5sYm12MWkwbyJ9.q1pVLHFRx0Cav6vmyACAYw'
+                        accessToken='Your-AccessToken-Here'
                     />
                 </LayersControl.BaseLayer>
 
                 <LayersControl.Overlay checked name="Settlements">
                     <SettlementsOverlay/>
                 </LayersControl.Overlay>
-            
                 <LayersControl.Overlay name="Rivers">
                     <RiversOverlay/>    
                 </LayersControl.Overlay>
-
                 <LayersControl.Overlay name="Townships">
                     <TownshipsOverlay/>    
                 </LayersControl.Overlay>
-
                 <LayersControl.Overlay name="Medium Voltage Grid">
                     <MediumVoltageGrid/>    
                 </LayersControl.Overlay>
-
                 <LayersControl.Overlay name="Districts">
                     <DistrictsOverlay/>    
                 </LayersControl.Overlay>

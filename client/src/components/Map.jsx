@@ -58,14 +58,12 @@ function Map() {
       const res = await axios.get('http://localhost:5000/districtAtPoint/'+lat+'/'+lng);
       const { data } = await res;
       setDistrict(data[0]);
-      //console.log(data[0]);
     };
     //Gets township based on where map was clicked
     async function getTownshipAtPoint(lat, lng){
       const res = await axios.get('http://localhost:5000/townshipAtPoint/'+lat+'/'+lng);
       const { data } = await res;
       setTownship(data[0]);
-      //console.log(data[0]);
     };
     /* Map interaction */
     const map = useMapEvents({
@@ -77,6 +75,10 @@ function Map() {
         setTownship('');
         setRiver('');
         setGrid('');
+        //saves lat and lng to be shown in the popup
+        setLat(e.latlng.lat);
+        setLng(e.latlng.lng);
+        // saves latlng for popup position
         setLatLng(e.latlng);
         getSolarAtPoint(e.latlng.lat, e.latlng.lng);
         getWindAtPoint(e.latlng.lat, e.latlng.lng);
@@ -95,7 +97,7 @@ function Map() {
               var feature = overlay._layers[f];
               var bounds;
               //gets bounds of the feature. 
-              if (feature.getBounds) bounds = feature.getBounds();
+              bounds = feature.getBounds();
               //if feature and clicked area overlaps the feature gets added to the array.
               if (bounds && clickBounds.overlaps(bounds)) {
                 overlappingFeatures.push(feature);

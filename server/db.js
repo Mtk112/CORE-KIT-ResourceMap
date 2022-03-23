@@ -1,10 +1,18 @@
+require('dotenv').config({path: '../.env'});
 const Pool = require('pg').Pool;
-const pool = new Pool({
+/*const pool = new Pool({
     user: 'postgres',
     host: 'localhost',
-    database: 'corekit',
+    database : 'corekit',
     password: 'admin',
     port: 5432,
+});*/
+const pool = new Pool({
+    user: process.env.DATABASE_USER,
+    host: process.env.DATABASE_HOST,
+    database: process.env.DATABASE,
+    password: process.env.DATABASE_PW,
+    port: process.env.DATABASE_PORT,
 });
 
 // Gets all settlements
@@ -44,6 +52,11 @@ const getRivers = (request, response) => {
 };
 
 
+/*  Possible solution for polyline problem, find nearest river based on map click location
+    SELECT *, ST_Transform(public.rivers.geom, 4326), public.rivers.geom <-> 'SRID=26918;POINT( 20.7888 97.03 )'::geometry AS dist FROM public.rivers ORDER BY dist LIMIT 1;
+
+*/
+
 const getTownships = (request, response) => {
     pool.query("SELECT 'FeatureCollection' As type, array_to_json(array_agg(f)) As features FROM (SELECT 'Feature' As type, ST_AsGeoJSON(geom)::json As geometry, row_to_json((SELECT l FROM (SELECT gid, ts, ts_mmr4) As l )) As properties FROM public.townships_shan_south As lg ) As f", (error, results) => {
     //pool.query("SELECT row_to_json(fc) AS geojson FROM (SELECT 'FeatureCollection' As type, array_to_json(array_agg(f)) AS features FROM (SELECT 'Feature' As type, ST_AsGeoJSON(ST_Transform(lg.geometry, 4326),15,0)::json As geometry, row_to_json((*)) As properties FROM public.townships As lg) As f) As fc", (error, results) =>{
@@ -58,7 +71,7 @@ const getTownshipAtPoint = (request, response) => {
     const lat = parseFloat(request.params.lat);
     const lng = parseFloat(request.params.lng);
     // Gets the district based on latitude / longitude.
-    pool.query("SELECT * FROM public.townships_shan_south WHERE ST_Within(ST_SetSRID(ST_Point( $1 , $2 ), 0), geom::geometry);", [lat,lng], (error, results) => {
+    pool.query("SELECT * FROM public.townships_shan_south WHERE ST_Within(ST_SetSRID(ST_Point($1 , $2), 0), geom::geometry);", [lat,lng], (error, results) => {
         if(error){
             throw error;
         };
@@ -89,7 +102,7 @@ const getDistrictAtPoint = (request, response) => {
     const lat = parseFloat(request.params.lat);
     const lng = parseFloat(request.params.lng);
     // Gets the district based on latitude / longitude.
-    pool.query("SELECT * FROM public.districts_shan_south WHERE ST_Within(ST_SetSRID(ST_Point( $1 , $2 ), 0), geom::geometry);", [lat,lng], (error, results) => {
+    pool.query("SELECT * FROM public.districts_shan_south WHERE ST_Within(ST_SetSRID(ST_Point($1 , $2), 0), geom::geometry);", [lat,lng], (error, results) => {
         if(error){
             throw error;
         };
