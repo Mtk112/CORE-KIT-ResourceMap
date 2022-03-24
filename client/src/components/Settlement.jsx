@@ -7,13 +7,13 @@ function Settlement({settlementData}){
     //console.log('Settlement data in Settlement.jsx: ' + settlementData);
     if(settlementData === undefined){
         return(
-            <p id="center">Nothing to show right now... Select a settlement from the map to view settlement data.</p>
+            <p id="center">Nothing to show right now... Select a location from the map to view nearest settlement data.</p>
         );
     }
     else{
         return(
             <>
-                <h3 id='center'>General Village Information: </h3> 
+                <h3 id='center'>Nearest Settlement Information: </h3> 
                 <p id='center'> Settlement name : {settlementData.name}</p>
                 <p id='center'> Settlement population : {settlementData.population}</p>
                 <p id='center'> Number of households : {settlementData.village_hh}</p>      

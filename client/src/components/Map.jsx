@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { MapContainer, Popup, useMapEvents } from 'react-leaflet';
+import { MapContainer, Popup, useMapEvents, Circle } from 'react-leaflet';
 import axios from 'axios';
 import L from 'leaflet';
 import Layers from './Layers';
@@ -106,6 +106,7 @@ function Map() {
         getDistrictAtPoint(e.latlng.lat, e.latlng.lng);
         getTownshipAtPoint(e.latlng.lat, e.latlng.lng);
         map.setView(e.latlng);
+        //var nearestSettlement = L.circle({[settlement.latitude, settlement.longitude]})
 
         //creates bounds for area clicked. 
         var clickBounds = L.latLngBounds(e.latlng, e.latlng);
@@ -157,6 +158,7 @@ function Map() {
     })
     return null;
   }
+  //{settlement && <Circle center={[settlement.latitude, settlement.longitude]} color="#000000" radius={5}/>}
   return (
     <>
       <MapContainer
@@ -167,7 +169,8 @@ function Map() {
         whenCreated={setMap}
       >
         <MapClick/>
-        <Layers />
+        <Layers settlementData = {settlement} />
+        {latlng && <Circle center={latlng} color="purple" radius={10}/>}
         {/* Renders popup and adds relevant content to it based on which features are on the click location */}
         {latlng && <Popup position = {latlng}>
           <PopupLatLng lat={lat} lng={lng}/>

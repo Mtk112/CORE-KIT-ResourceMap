@@ -9,23 +9,30 @@ class SettlementsOverlay  extends Component {
         this.state = {
           settlements: null,
           settlementRef: null,
-          lastSettlement: null,
         }  
     }
-
+    // Sets the color of settlements based on their population
     pointToLayer(feature, latlng) {
         var pop = feature.properties.population;
+        //population 0 - 99
         if(pop < 100){
             return L.circle(latlng, {radius: 5, color: '#fcbba1'});
         }
+        //population 100 - 999
         if(pop >= 100 &&  pop < 1000){
             return L.circle(latlng, {radius: 5, color: '#fb6a4a'});
         }
+        //population 1000 - 9999
         if(pop >= 1000 && pop < 10000){
             return L.circle(latlng, {radius: 5, color: '#de2d26'});
         }
+        //population 10000 or higher
         if(pop >= 10000){
             return L.circle(latlng, {radius: 5, color: '#a50f15'});
+        }
+        if(feature.properties.gid === this.props.settlement.gid){
+            console.log("Matched latlng");
+            return L.circle(latlng, {radius: 5, color: '#800080'});
         }
     }
 
