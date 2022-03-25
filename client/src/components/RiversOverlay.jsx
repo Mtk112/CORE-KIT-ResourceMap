@@ -20,6 +20,22 @@ class RiversOverlay extends Component {
         this.setState({rivers: data[0], riversRef: reference});
         //console.log(this.state.rivers);
     }
+
+    onEachFeature(feature, layer) {
+        //this.bindTooltip(feature.properties.name);
+        layer.bindPopup("River ID: " + feature.properties.riverid);
+        layer.on({
+            'mouseover': function (e) {
+                layer.openPopup();
+        }
+        });
+        layer.on({
+            'mouseout': function (e){
+                layer.closePopup();
+            }
+        });
+    }
+    
     componentDidMount() {
         this.getRivers();
     };
@@ -31,7 +47,7 @@ class RiversOverlay extends Component {
         };
         return(
             this.state.rivers && (
-                <GeoJSON data={this.state.rivers} ref={this.riversRef} style={style} />
+                <GeoJSON data={this.state.rivers} ref={this.riversRef} style={style} onEachFeature={this.onEachFeature} />
             )
         );
     };

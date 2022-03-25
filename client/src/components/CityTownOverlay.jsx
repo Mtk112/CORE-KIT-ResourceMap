@@ -12,6 +12,22 @@ class CityTownOverlay extends Component {
           cityTownRef: null
         }  
     }
+
+    onEachFeature(feature, layer) {
+        //this.bindTooltip(feature.properties.name);
+        layer.bindPopup("City / Town: " + feature.properties.city__town);
+        layer.on({
+            'mouseover': function (e) {
+                layer.openPopup();
+        }
+        });
+        layer.on({
+            'mouseout': function (e){
+                layer.closePopup();
+            }
+        });
+    }
+
     // Changes the style of showing each feature from marker to a circle.
     pointToLayer(feature, latlng) {
         return L.circle(latlng, {radius: 5, color: 'red'});
@@ -31,7 +47,7 @@ class CityTownOverlay extends Component {
     render(){
         return(
             this.state.cityTown && (
-                <GeoJSON data={this.state.cityTown} ref={this.cityTownRef} pointToLayer={this.pointToLayer.bind(this)} />
+                <GeoJSON data={this.state.cityTown} ref={this.cityTownRef} pointToLayer={this.pointToLayer.bind(this)} onEachFeature={this.onEachFeature} />
             )
         );
     };

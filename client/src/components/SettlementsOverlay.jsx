@@ -36,12 +36,20 @@ class SettlementsOverlay  extends Component {
         }
     }
 
-    /*onEachFeature(feature, layer) {
+    onEachFeature(feature, layer) {
+        //this.bindTooltip(feature.properties.name);
+        layer.bindPopup("Settlement: " + feature.properties.name + "</br> Population: " + feature.properties.population);
         layer.on({
-        'click': function (e) {  
+            'mouseover': function (e) {
+                layer.openPopup();
         }
-        })
-    }*/
+        });
+        layer.on({
+            'mouseout': function (e){
+                layer.closePopup();
+            }
+        });
+    }
     // Gets all settlements
     async getSettlements(){
         const res = await axios.get('http://localhost:5000/settlements');
@@ -58,7 +66,7 @@ class SettlementsOverlay  extends Component {
         return(
             this.state.settlements &&(
                 <>
-                    <GeoJSON data={this.state.settlements} ref={this.settlementRef} pointToLayer={this.pointToLayer.bind(this)} />
+                    <GeoJSON data={this.state.settlements} ref={this.settlementRef} pointToLayer={this.pointToLayer.bind(this)} onEachFeature={this.onEachFeature} />
                 </>
             )
         )

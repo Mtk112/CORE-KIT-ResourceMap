@@ -22,7 +22,7 @@ function InfoTabs({solarData, settlementData, riverData, windData}) {
                         <Tab eventKey="hydro" title="Hydro" id="tab">
                             <River riverData = {riverData} />
                         </Tab>
-                        <Tab eventKey="settlement" title="Settlement" id="tab">
+                        <Tab eventKey="settlement" title="Nearest settlement" id="tab">
                             <Settlement settlementData = {settlementData}/>
                         </Tab>
                     </Tabs>

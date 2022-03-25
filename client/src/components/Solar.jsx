@@ -26,7 +26,7 @@ function Solar( {solarData} ) {
                         mode: 'lines',
                     }
                     ]}
-                    layout={{width: 450, height: 200, margin: {l: 50, r: 40, b: 75, t: 35, pad: 2}, xaxis: {autotick: false, ticks: 'outside', tick0: 0, dtick: 1, title: 'Month'}, yaxis:{title: 'kWh / kWp'}, title: 'Daily solar potential' }}
+                    layout={{width: 450, height: 200, margin: {l: 50, r: 40, b: 75, t: 35, pad: 2}, xaxis: {autotick: false, ticks: 'outside', tick0: 0, dtick: 1, title: 'Month'}, yaxis:{title: 'kWh / kWp'}, title: 'Daily solar potential at location' }}
                     config={{ modeBarButtonsToRemove: ['toImage', 'zoom2d', 'pan', 'pan2d', 'autoScale2d','zoomIn2d', 'zoomOut2d','resetScale2d'], responsive: true }}
                 />
                 <Plot
@@ -38,7 +38,7 @@ function Solar( {solarData} ) {
                         mode: 'lines',
                     }
                     ]}
-                    layout={{width: 450, height: 200, margin: {l: 50, r: 15, b: 75, t: 35, pad: 2}, xaxis: {autotick: false, ticks: 'outside', tick0: 0, dtick: 1, title: 'Month'}, yaxis:{title: 'kWh / kWp'}, title: 'Monthly solar potential' }}
+                    layout={{width: 450, height: 200, margin: {l: 50, r: 15, b: 75, t: 35, pad: 2}, xaxis: {autotick: false, ticks: 'outside', tick0: 0, dtick: 1, title: 'Month'}, yaxis:{title: 'kWh / kWp'}, title: 'Monthly solar potential at location' }}
                     config={{ modeBarButtonsToRemove: ['toImage', 'zoom2d', 'pan', 'pan2d', 'autoScale2d','zoomIn2d', 'zoomOut2d','resetScale2d'], responsive: true }}
                 />
             </>

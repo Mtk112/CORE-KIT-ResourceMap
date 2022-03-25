@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { MapContainer, Popup, useMapEvents, Circle } from 'react-leaflet';
+import { MapContainer, Popup, useMapEvents, Circle, Marker } from 'react-leaflet';
 import axios from 'axios';
 import L from 'leaflet';
 import Layers from './Layers';
@@ -7,6 +7,9 @@ import InfoTabs from './InfoTabs';
 import Legend from './Legend';
 import {PopupDistrict, PopupLatLng, PopupRiver, PopupSettlement, PopupWindSolar, PopupTownship, PopupGrid} from './InfoPopup';
 import 'leaflet/dist/leaflet.css';
+
+import icon from 'leaflet/dist/images/marker-icon.png';
+import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 
 
 function Map() {
@@ -26,8 +29,10 @@ function Map() {
   const [lng, setLng] = useState('');
   const [latlng, setLatLng] = useState('');
 
-
-
+  const defaultIcon = L.icon({
+    iconUrl: icon,
+    shadowUrl: iconShadow
+  });
   // Sets month based on which month is selected from dropdown, this will be used for solar and wind raster overlays... if i can block map.click happening under the dropdown.
 
   // Adds a component for map clicks (for some reason the first click does not set position).
@@ -106,54 +111,6 @@ function Map() {
         getDistrictAtPoint(e.latlng.lat, e.latlng.lng);
         getTownshipAtPoint(e.latlng.lat, e.latlng.lng);
         map.setView(e.latlng);
-        //var nearestSettlement = L.circle({[settlement.latitude, settlement.longitude]})
-
-        //creates bounds for area clicked. 
-        var clickBounds = L.latLngBounds(e.latlng, e.latlng);
-        var overlappingFeatures = [];
-        //Goes through every layer active.
-        for (var l in map._layers) {
-          var overlay = map._layers[l];
-          //checks that the layer has features i.e. that the layer is overlay.
-          if (overlay._layers) {
-            //goes through each feature
-            for (var f in overlay._layers) {
-              var feature = overlay._layers[f];
-              var bounds;
-              //gets bounds of the feature. 
-              bounds = feature.getBounds();
-              //if feature and clicked area overlaps the feature gets added to the array.
-              if (bounds && clickBounds.overlaps(bounds)) {
-                overlappingFeatures.push(feature);
-              }
-            }
-          }
-        }
-        //checks that at least one feature was found
-        if (overlappingFeatures.length) {
-            overlappingFeatures.map(function(obj) {
-            /*  Checks which layer the feature belongs to and saves the properties of the feature. 
-                obj doesnt have layer data so layer is identified by unique property.              
-            */
-              /*if(obj.feature.properties.name){
-                setSettlement(obj.feature.properties);
-              }
-              else if(obj.feature.properties.riverid){
-                setRiver(obj.feature.properties);
-              }
-              if(obj.feature.properties.dt){
-                getDistrictAtPoint(e.latlng.lat, e.latlng.lng);
-              }
-              else if(obj.feature.properties.ts){
-                getTownshipAtPoint(e.latlng.lat, e.latlng.lng);
-              }
-              if(obj.feature.properties.ex_from){
-                setGrid(obj.feature.properties);
-              }*/
-              return null;
-            })
-            
-       }   
       }
     })
     return null;
@@ -170,17 +127,19 @@ function Map() {
       >
         <MapClick/>
         <Layers settlementData = {settlement} />
-        {latlng && <Circle center={latlng} color="purple" radius={10}/>}
+        { /* latlng && <Circle center={latlng} color="purple" radius={10}/> */}
         {/* Renders popup and adds relevant content to it based on which features are on the click location */}
-        {latlng && <Popup position = {latlng}>
-          <PopupLatLng lat={lat} lng={lng}/>
-          <PopupWindSolar avgWind={avgWind} avgSolar={avgSolar} />
-          {settlement && <PopupSettlement settlement={settlement}/>}
-          {district && <PopupDistrict district={district}/>}
-          {township && <PopupTownship township={township}/>}
-          {river && <PopupRiver river={river}/>}
-          {grid && <PopupGrid grid={grid}/>}
-        </Popup>}
+        {latlng && <Marker position = {latlng} icon = {defaultIcon}> 
+          <Popup position = {latlng}>
+            <PopupLatLng lat={lat} lng={lng}/>
+            <PopupWindSolar avgWind={avgWind} avgSolar={avgSolar} />
+            {settlement && <PopupSettlement settlement={settlement}/>}
+            {district && <PopupDistrict district={district}/>}
+            {township && <PopupTownship township={township}/>}
+            {river && <PopupRiver river={river}/>}
+            {grid && <PopupGrid grid={grid}/>}
+          </Popup>
+        </Marker>}
         <Legend map={map}/>
       </MapContainer>
       {/* using solar data to check if map has been clicked. when map is clicked the infotabs component is rendered */}

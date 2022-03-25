@@ -19,6 +19,22 @@ class MediumVoltageGrid extends Component{
         let reference = React.createRef();
         this.setState({mvGrid: data[0], mvGridRef: reference});
     };
+
+    onEachFeature(feature, layer) {
+        //this.bindTooltip(feature.properties.name);
+        layer.bindPopup("Grid ID: " + feature.properties.gid +  "</br> From: " + feature.properties.ex_from + "</br> To: " +feature.properties.ex_to);
+        layer.on({
+            'mouseover': function (e) {
+                layer.openPopup();
+        }
+        });
+        layer.on({
+            'mouseout': function (e){
+                layer.closePopup();
+            }
+        });
+    }
+
     componentDidMount() {
         this.getGrid();
     };
@@ -31,7 +47,7 @@ class MediumVoltageGrid extends Component{
         };
         return(
             this.state.mvGrid && (
-                <GeoJSON data={this.state.mvGrid} ref={this.mvGridRef} style={style}/>
+                <GeoJSON data={this.state.mvGrid} ref={this.mvGridRef} style={style} onEachFeature={this.onEachFeature}/>
             )
         );
     };
