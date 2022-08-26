@@ -2,6 +2,10 @@
 Map application for displaying estimated renewable energy resources in southern Shan-State, Myanmar.
 <br>
 <br>
+![image](https://user-images.githubusercontent.com/14816655/186962442-8fe20107-58c4-4f2a-9cb6-a354896187f1.png)
+
+<br>
+<br>
 # Installation
 <br>
 <br>
