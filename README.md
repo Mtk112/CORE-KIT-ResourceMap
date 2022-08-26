@@ -1,5 +1,5 @@
 # CORE-KIT-ResourceMap
-Map application for displaying estimated renewable energy resources in Shan-State, Myanmar.
+Map application for displaying estimated renewable energy resources in southern Shan-State, Myanmar.
 <br>
 <br>
 # Installation
