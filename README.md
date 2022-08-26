@@ -6,7 +6,8 @@ Map application for displaying estimated renewable energy resources in southern 
 
 <br>
 <br>
-# Installation
+
+# Setup
 <br>
 <br>
 Download and install Node.js from https://nodejs.org/en/.
