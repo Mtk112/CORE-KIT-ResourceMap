@@ -103,9 +103,6 @@ npm i
 npm start 
 <br>
 And the application should now be running on your browser locally!
-<br>
-<br>
-![image](https://user-images.githubusercontent.com/14816655/130372352-b4c48a7f-577d-4d0a-88cf-8727c3443e72.png)
 
 
 
