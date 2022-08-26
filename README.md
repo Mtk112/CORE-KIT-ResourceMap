@@ -47,7 +47,7 @@ Repeat but select postgis_raster.
 <br>
 Next download corekitdump.sql from https://drive.google.com/drive/folders/1rAR9lxN_Z5AAE8O4Vupn6p-G8RIqoesz?usp=sharing.
 <br>
-
+<br>
 Navigate to PostgreSQL\13\bin folder and tap on the filepath and type cmd and press enter to launch command line.
 <br>
 ![image](https://user-images.githubusercontent.com/14816655/130366812-cd04f874-b489-4ead-9df4-cf689c433452.png)
@@ -56,6 +56,7 @@ Navigate to PostgreSQL\13\bin folder and tap on the filepath and type cmd and pr
 On command line write the following:
 <br>
 psql -U [postgreSQL_superuser] -h localhost -p [postgreSQL_portnumber] [databasename] < [path_to_corekitdump.sql]
+<br>
 <br>
 For example: 
 <br>
@@ -68,9 +69,10 @@ Clone or download CORE-KIT-ResourceMap repository (https://github.com/Mtk112/COR
 <br>
 ![image](https://user-images.githubusercontent.com/14816655/130367419-774fe438-f67a-4ba0-95a7-e00f5f228288.png).
 <br>
+<br>
 Next open the CORE-KIT-ResourceMap with Visual Studio Code.
 <br>
-Next create a new file under CORE-KIT-RESOURCEMAP by right clicking anywhere under the README.md and selecting New File.
+In visual studio, create a new file under CORE-KIT-RESOURCEMAP by right clicking anywhere under the README.md and selecting New File.
 <br>
 ![image](https://user-images.githubusercontent.com/14816655/186948133-6a2fa632-dc22-45a7-a72e-7f8a291006c8.png)
 <br>
