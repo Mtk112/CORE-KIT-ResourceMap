@@ -4,7 +4,7 @@
   "description": "RESTful API with Node.js, Express and PostgreSQL",
   "main": "index.js",
   "scripts": {
-    "start": "source .env; node ./index.js",
+    "start": "node ./index.js",
     "dev": "nodemon ./index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -18,6 +18,6 @@
     "pg": "^8.7.1"
   },
   "devDependencies": {
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.19"
   }
 }

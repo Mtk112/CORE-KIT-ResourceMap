@@ -10,61 +10,63 @@ import WindLayer from './WindLayer';
 import SolarLayer from './SolarLayer';
 
 /*
-    Additional layer...
+    Additional options for layers.
+
     <LayersControl.BaseLayer name="OpenTopoMap">
-                    <TileLayer
-                        attribution='Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org/">SRTM</a> | map style: © <a href="https://opentopomap.org/">OpenTopoMap</a> <a href="https://creativecommons.org/licenses/by-sa/3.0/">(CC-BY-SA)</a>'
-                        url='https://a.tile.opentopomap.org/{z}/{x}/{y}.png'
-                    />
-                </LayersControl.BaseLayer>
+        <TileLayer
+            attribution='Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org/">SRTM</a> | map style: © <a href="https://opentopomap.org/">OpenTopoMap</a> <a href="https://creativecommons.org/licenses/by-sa/3.0/">(CC-BY-SA)</a>'
+            url='https://a.tile.opentopomap.org/{z}/{x}/{y}.png'
+        />
+    </LayersControl.BaseLayer>
+
+    <LayersControl.BaseLayer checked name="Streets">
+        <TileLayer
+            //attribution
+            attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>'
+            //url where the tiles are loaded from.
+            url='https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}'
+            //id of the tiles to load (only needed for the mapbox tiles).
+            id='mapbox/streets-v11'
+            //access token for the tiles.
+            accessToken='Your-AccessToken-Here'                       
+        />
+    </LayersControl.BaseLayer>
+
+    <LayersControl.BaseLayer name="Satellite">
+        <TileLayer
+            attribution='Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>'
+            url='https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}'
+            id='mapbox/satellite-v9'
+            //accessToken='Your-AccessToken-Here'
+        />
+    </LayersControl.BaseLayer>
 */
-function Layers() {
+
+function Layers(settlement) {
         return (
         //Adding tilelayers base layers to the leaflet map.
             <LayersControl position="topright">
 
-                <LayersControl.BaseLayer checked name="Streets">
-                    <TileLayer
-                        //attribution
-                        attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>'
-                        //url where the tiles are loaded from.
-                        url='https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}'
-                        //id of the tiles to load (only needed for the mapbox tiles).
-                        id='mapbox/streets-v11'
-                        //access token for the tiles.
-                        accessToken='Your-AccessToken-Here'
-                        
-                    />
-                </LayersControl.BaseLayer>
-
-                <LayersControl.BaseLayer name="OpenStreetMap">
+                <LayersControl.BaseLayer checked name="OpenStreetMap">
                     <TileLayer
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
                 </LayersControl.BaseLayer>
 
-                <LayersControl.BaseLayer name="Satellite">
-                    <TileLayer
-                        attribution='Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>'
-                        url='https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}'
-                        id='mapbox/satellite-v9'
-                        accessToken='Your-AccessToken-Here'
-                        
-                    />
-                </LayersControl.BaseLayer>
                 <LayersControl.BaseLayer name="Satellite-Streets">
                     <TileLayer
                         attribution='Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>'
                         url='https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}'
                         id='mapbox/satellite-streets-v11'
-                        accessToken='Your-AccessToken-Here'
+                        //accessToken='Your-AccessToken-Here'
+                        accessToken='pk.eyJ1IjoibWthbGxpbzIiLCJhIjoiY2t3azI2cmowMGYwdjJvbXRtbzR1MTM5bSJ9.tZcXcJRISuWXN7GNIjwL3w'
 
                     />
                 </LayersControl.BaseLayer>
 
                 <LayersControl.Overlay checked name="Settlements">
-                    <SettlementsOverlay/>
+                    <SettlementsOverlay settlement={settlement}/>
                 </LayersControl.Overlay>
                 <LayersControl.Overlay name="Rivers">
                     <RiversOverlay/>    
