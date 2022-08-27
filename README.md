@@ -46,7 +46,6 @@ Then expand corekit and right click on extensions -> create -> extension. Select
 <br>
 Repeat but select postgis_raster.
 <br>
-<br>
 ![image](https://user-images.githubusercontent.com/14816655/130365836-5236b9cf-2749-4e5f-ac7b-cc198ff5a466.png)
 <br>
 <br>
@@ -56,7 +55,6 @@ Next download corekitdump.sql from https://drive.google.com/drive/folders/1rAR9l
 Navigate to PostgreSQL\13\bin folder and tap on the filepath and type cmd and press enter to launch command line.
 <br>
 ![image](https://user-images.githubusercontent.com/14816655/130366812-cd04f874-b489-4ead-9df4-cf689c433452.png)
-<br>
 <br>
 On command line write the following:
 <br>
@@ -72,8 +70,7 @@ Then download and install Visual Studio Code (https://code.visualstudio.com/) or
 <br>
 Clone or download CORE-KIT-ResourceMap repository (https://github.com/Mtk112/CORE-KIT-ResourceMap).
 <br>
-![image](https://user-images.githubusercontent.com/14816655/130367419-774fe438-f67a-4ba0-95a7-e00f5f228288.png).
-<br>
+![image](https://user-images.githubusercontent.com/14816655/130367419-774fe438-f67a-4ba0-95a7-e00f5f228288.png)
 <br>
 Next open the CORE-KIT-ResourceMap with Visual Studio Code.
 <br>
@@ -89,7 +86,6 @@ Change the values in the .env file so that they match the credentials set during
 Finally open the CORE-KIT-ResourceMap with Visual Studio Code, and open terminal by selecting View -> Terminal.
 <br>
 ![image](https://user-images.githubusercontent.com/14816655/130367619-298a6e6b-b3ea-4c1d-bb3f-79457628dfcf.png)
-<br>
 <br>
 On the terminal write the following commands:
 <br>
